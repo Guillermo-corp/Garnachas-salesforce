@@ -8,7 +8,7 @@ export default class ClienteRegistro extends LightningElement {
     @track telefono = '';
 
     handleInputChange(event) {
-        const field = event.target.label.toLowerCase();
+        const field = event.target.name;
         this[field] = event.target.value;
     }
 
