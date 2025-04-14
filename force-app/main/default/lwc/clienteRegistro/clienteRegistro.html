@@ -1,0 +1,10 @@
+<template>
+    <lightning-card title="Registro de Cliente" icon-name="standard:account">
+        <div class="slds-p-around_medium">
+            <lightning-input label="Nombre" value={nombre} onchange={handleInputChange}></lightning-input>
+            <lightning-input label="Correo Electrónico" type="email" value={correo} onchange={handleInputChange}></lightning-input>
+            <lightning-input label="Teléfono" type="tel" value={telefono} onchange={handleInputChange}></lightning-input>
+            <lightning-button label="Registrar" variant="brand" onclick={handleRegister}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

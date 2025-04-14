@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Gestión de Clientes" icon-name="standard:contact">
+        <div class="slds-p-around_medium">
+            <lightning-datatable
+                key-field="Id"
+                data={clientes}
+                columns={columns}
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+</template>
