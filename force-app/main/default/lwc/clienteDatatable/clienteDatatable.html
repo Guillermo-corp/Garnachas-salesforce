@@ -9,4 +9,46 @@
             </lightning-datatable>
         </div>
     </lightning-card>
+
+    <!-- Modal para editar cliente -->
+    <template if:true={mostrarModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Editar Cliente</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input
+                        label="Nombre"
+                        value={clienteSeleccionado.FirstName}
+                        onchange={handleInputChange}
+                        data-field="FirstName">
+                    </lightning-input>
+                    <lightning-input
+                        label="Apellido"
+                        value={clienteSeleccionado.LastName}
+                        onchange={handleInputChange}
+                        data-field="LastName">
+                    </lightning-input>
+                    <lightning-input
+                        label="Correo Electrónico"
+                        value={clienteSeleccionado.Email}
+                        onchange={handleInputChange}
+                        data-field="Email">
+                    </lightning-input>
+                    <lightning-input
+                        label="Teléfono"
+                        value={clienteSeleccionado.Phone}
+                        onchange={handleInputChange}
+                        data-field="Phone">
+                    </lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancelar" onclick={cerrarModal}></lightning-button>
+                    <lightning-button label="Guardar" variant="brand" onclick={guardarCliente}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 </template>
