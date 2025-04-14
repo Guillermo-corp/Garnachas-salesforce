@@ -4,6 +4,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class ClienteRegistro extends LightningElement {
     @track nombre = '';
+    @track apellido ='';
     @track correo = '';
     @track telefono = '';
 
@@ -13,7 +14,7 @@ export default class ClienteRegistro extends LightningElement {
     }
 
     handleRegister() {
-        if (!this.nombre || !this.correo || !this.telefono) {
+        if (!this.nombre || !this.apellido || !this.correo || !this.telefono) {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
@@ -24,7 +25,7 @@ export default class ClienteRegistro extends LightningElement {
             return;
         }
 
-        registrarCliente({ nombre: this.nombre, correo: this.correo, telefono: this.telefono })
+        registrarCliente({ nombre: this.nombre, apellido: this.apellido, correo: this.correo, telefono: this.telefono })
             .then(() => {                
                 this.dispatchEvent(
                     new ShowToastEvent({
@@ -35,14 +36,19 @@ export default class ClienteRegistro extends LightningElement {
                 );
                 // Limpiar los campos después del registro
                 this.nombre = '';
+                this.apellido = '';
                 this.correo = '';
                 this.telefono = '';
             })
             .catch(error => {
+                let message = 'Error al registrar el cliente';
+                if (error.body && error.body.message) {
+                    message = error.body.message;
+                }
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Error',
-                        message: 'Error al registrar el cliente',
+                        message: message,
                         variant: 'error',
                     })
                 );
