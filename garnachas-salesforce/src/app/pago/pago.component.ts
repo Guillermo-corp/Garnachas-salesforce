@@ -14,7 +14,7 @@ export class PagoComponent {
       .post('https://us-central1-garnachas-backend.cloudfunctions.net/crearSesionPago', {})
       .toPromise();
 
-    const stripe = await loadStripe('pk_test_51RDonfDuneb1ckN1mjIju8Y9HTTYGTcuirT9Eqbn2cPeFuvrGH0baG9cbhKGm0Y2XRX9tOdbHymoHZe1QttgeNra00pz8lizQJ'); // 👈 Tu clave pública
+    const stripe = await loadStripe(''); // 👈 Tu clave pública
     stripe?.redirectToCheckout({ sessionId: res.id });
   }
 }
