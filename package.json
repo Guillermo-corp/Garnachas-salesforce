@@ -39,6 +39,8 @@
     ]
   },
   "dependencies": {
-    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector"
+    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
+    "@stripe/stripe-js": "^7.1.0",
+    "stripe": "^18.0.0"
   }
 }
