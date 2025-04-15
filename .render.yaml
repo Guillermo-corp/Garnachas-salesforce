@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: garnachas-salesforce
-    env: node
-    plan: free
-    rootDir: garnachas-salesforce
-    buildCommand: npm run build:ssr
-    startCommand: npm run serve:ssr
