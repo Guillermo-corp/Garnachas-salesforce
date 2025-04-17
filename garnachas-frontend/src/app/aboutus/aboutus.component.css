@@ -1,0 +1,29 @@
+.aboutus-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+  }
+  
+  mat-card {
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  mat-card-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3f51b5;
+  }
+  
+  mat-card-content p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    text-align: justify;
+  }
+  
+  

@@ -14,7 +14,6 @@
     "prettier:verify": "prettier --check \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
     "postinstall": "husky install",
     "precommit": "lint-staged"
-    
   },
   "devDependencies": {
     "@lwc/eslint-plugin-lwc": "^2.0.0",
@@ -40,6 +39,8 @@
     ]
   },
   "dependencies": {
+    "@angular/cdk": "^19.2.9",
+    "@angular/material": "^19.2.9",
     "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
     "@stripe/stripe-js": "^7.1.0",
     "stripe": "^18.0.0"

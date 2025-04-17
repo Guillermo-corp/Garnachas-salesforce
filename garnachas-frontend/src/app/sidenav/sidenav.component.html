@@ -1,0 +1,13 @@
+
+
+<div class="sidenav-container">
+  <button class="toggle-button" [class.shifted]="isOpen" (click)="toggleSidenav()">☰</button>
+  <nav class="sidenav" [class.open]="isOpen">
+    <ul>
+      <li><a routerLink="/" (click)="toggleSidenav()">Inicio</a></li>
+      <li><a routerLink="/details/:id" (click)="toggleSidenav()">Detalles</a></li> 
+      <li><a routerLink="/aboutus" (click)="toggleSidenav()">Acerca de nosotros</a></li>
+      <li><a href="#" (click)="toggleSidenav()">Contacto</a></li>
+    </ul>
+  </nav>
+</div>
