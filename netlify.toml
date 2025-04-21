@@ -1,7 +1,0 @@
-[build]
-  base = "garnachas-frontend"
-  command = "npm install -g @angular/cli && npm install && ng build --configuration production"
-  publish = "dist/garnachas-frontend"
-
-[context.production.environment]
-  NODE_VERSION = "18"
