@@ -26,6 +26,8 @@ import {MatIconModule} from '@angular/material/icon';
 export class HomeComponent {
   pageSize: number = 4;
   currentPage: number = 0;
+  
+  paginatedList: any[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -39,8 +41,79 @@ export class HomeComponent {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     console.log('Cambio de página:', event);
+    this.updatePaginatedList();
   }
-
+  ngOnInit() {
+    this.filteredLocationList = [
+      {
+        name: 'Garnacha',
+        description: 'Descripción de la garnacha.',
+        price: 12.0,
+        image: 'https://i.ytimg.com/vi/Yz4ljMJOhKU/maxresdefault.jpg',
+        size: 'Mediano',
+        spiceLevel: 'Picante',
+        category: 'Tradicional',
+        isBestSeller: true, // Este es el producto más comprado
+      },
+      {
+        name: 'Quesadilla',
+        description: 'Descripción de la quesadilla.',
+        price: 14.0,
+        image: 'https://editorialtelevisa.brightspotcdn.com/wp-content/uploads/2019/11/quesadillas-veracruzanas.jpg',
+        size: 'Grande',
+        spiceLevel: 'No picante',
+        category: 'Tradicional',
+        isBestSeller: false,
+      },
+      {
+        name: 'Tempispis',
+        description: 'Descripción de la tempispis.',
+        price: 15.0,
+        image: 'https://animalgourmet.com/wp-content/uploads/2020/05/image0-1.jpeg',
+        size: 'Pequeño',
+        spiceLevel: 'No picante',
+        category: 'Tradicional',
+        isBestSeller: false,
+      },
+      {
+        name: 'Gorditas',
+        description: 'Descripción de la gordita.',
+        price: 14.0,
+        image: 'https://i.ytimg.com/vi/GnArHf0i5nE/maxresdefault.jpg',
+        size: 'Grande',
+        spiceLevel: 'Dulce',
+        category: 'Tradicional',
+        isBestSeller: false,
+      },
+      {
+        name: 'Picadas',
+        description: 'Descripción de la picada.',
+        price: 12.0,
+        image: 'https://i.ytimg.com/vi/lhGN9kJeNsw/maxresdefault.jpg',
+        size: 'Mediano',
+        spiceLevel: 'Picante',
+        category: 'Tradicional',
+        isBestSeller: false,
+      },
+      {
+        name: 'Sopes',
+        description: 'Descripción de los sopes.',
+        price: 12.0,
+        image: 'https://patijinich.com/es/wp-content/uploads/sites/3/2017/12/610-sopes.jpg',
+        size: 'Pequeño',
+        spiceLevel: 'No picante',
+        category: 'Tradicional',
+        isBestSeller: false,
+      }
+    ];
+    this.updatePaginatedList();
+  }
+  updatePaginatedList() {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedList = this.filteredLocationList.slice(startIndex, endIndex);
+  }
+/* 
   garnacha = {
     name: 'Garnacha',
     description: 'Descripción de la garnacha.',
@@ -52,7 +125,21 @@ export class HomeComponent {
     description: 'Descripción de la Quesadilla.',
     price: 14.0,
   };
-
+  tempispis = {
+    name: 'Tempispis',
+    description: 'Descripción de la tempispis.',
+    price: 15.0,
+  };
+  gorditas = {
+    name: 'Gorditas',
+    description: 'Descripción de la gorditas.',
+    price: 14.0,
+  }
+  picadas = {
+    name: 'Picadas',
+    description: 'Descripción de la picadas.',
+    price: 12.0,
+  } */
   addToCart(item: any): void {
     console.log('Added to cart:', item);
     // Add logic to handle adding the item to the cart
