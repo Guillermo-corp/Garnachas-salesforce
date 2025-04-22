@@ -60,11 +60,26 @@
   
   .home-container {
     display: flex;
-    
-  
-    padding: 20px;
+    flex-direction: column; /* Ensure vertical stacking of elements */
+    padding: 0px;
+    gap: 10px; /* Add spacing between child elements */
   }
   
-  
-  
-  
+  .menu-title-container h1 {
+    font-size: 2.5rem; /* Aumenta el tamaño de la fuente */
+    color: var(--primary-color); /* Usa un color destacado */
+    font-weight: bold; /* Haz que el texto sea más grueso */
+    text-transform: uppercase; /* Convierte el texto a mayúsculas */
+    text-align: center;
+    margin: 0; /* Elimina márgenes adicionales */
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px; /* Further increase spacing between product cards */
+    margin-top: 30px; /* Add more spacing above the grid */
+  }
+
+
+
