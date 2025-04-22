@@ -89,6 +89,8 @@
 
   .example {
     max-width: 400px;
+    height: 450px;
+    width: 100%;
   }
   .example-card-footer{
     justify-content: center;
@@ -105,4 +107,20 @@
     height: auto;
     max-height: 200px; /* Ajusta este valor según tus necesidades */
     object-fit: cover; /* Asegura que la imagen se ajuste sin deformarse */
+  }
+
+  .example-card-actions mat-icon{
+    height: 20px;
+  }
+  .example mat-icon{
+    height: 22px;
+  }
+  .example mat-card-subtitle{
+    color: rgb(255, 32, 88);
+  }
+
+  .example mat-card-title {
+    font-family: 'Roboto', sans-serif; /* Aplica la fuente personalizada */
+    font-size: 1.8rem; /* Ajusta el tamaño de la fuente */
+    color: var(--primary-color) /* Cambia el color */
   }

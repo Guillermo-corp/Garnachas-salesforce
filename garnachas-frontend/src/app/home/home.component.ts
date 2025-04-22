@@ -5,6 +5,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatPaginatorModule,
     MatCardModule,
     MatProgressBarModule,
-    MatChipsModule
+    MatChipsModule,
+    MatIconModule,
   ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
