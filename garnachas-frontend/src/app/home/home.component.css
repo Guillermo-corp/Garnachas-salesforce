@@ -79,7 +79,30 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px; /* Further increase spacing between product cards */
     margin-top: 30px; /* Add more spacing above the grid */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;
   }
 
+  .product-grid mat-chip-set {
+    justify-content: center;
+  }
 
+  .example {
+    max-width: 400px;
+  }
+  .example-card-footer{
+    justify-content: center;
+    display: flex;
+  }
+  .example-card-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+  }
 
+  .custom-image {
+    width: 100%;
+    height: auto;
+    max-height: 200px; /* Ajusta este valor según tus necesidades */
+    object-fit: cover; /* Asegura que la imagen se ajuste sin deformarse */
+  }
