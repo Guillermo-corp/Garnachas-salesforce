@@ -91,6 +91,10 @@
     max-width: 400px;
     height: 450px;
     width: 100%;
+    margin: 16px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
   }
   .example-card-footer{
     justify-content: center;
@@ -103,10 +107,13 @@
   }
 
   .custom-image {
-    width: 100%;
+   /*  width: 100%;
     height: auto;
-    max-height: 200px; /* Ajusta este valor según tus necesidades */
-    object-fit: cover; /* Asegura que la imagen se ajuste sin deformarse */
+    max-height: 200px;
+    object-fit: cover;  */
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
   }
 
   .example-card-actions mat-icon{
@@ -116,6 +123,7 @@
     height: 22px;
   }
   .example mat-card-subtitle{
+    font-size: 1rem;
     color: rgb(255, 32, 88);
   }
 
@@ -124,3 +132,5 @@
     font-size: 1.8rem; /* Ajusta el tamaño de la fuente */
     color: var(--primary-color) /* Cambia el color */
   }
+
+  
