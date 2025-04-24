@@ -43,7 +43,8 @@ header.brand-name {
   align-items: center;
   justify-content: space-between; /* Espacia los elementos dentro del header */
   padding: 0 16px;
-  background-color: #ffffff; /* Color de fondo opcional */
+  /* background-color: #242323;  */
+  background-color: var(--primary-color); /* Color de fondo opcional */
   height: 70px; /* Altura del header */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra opcional */
 }
@@ -57,7 +58,7 @@ header .icon-group{
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--primary-color);
+  color: rgb(255, 255, 255);
 }
 
 .search-container {
@@ -69,4 +70,21 @@ header .icon-group{
 input {
   transition: width 0.3s ease;
   width: 150px;
+}
+
+.user-icon {
+  color: rgb(255, 255, 255);
+}
+
+.ShoppingCart {
+  color: rgb(255, 255, 255);
+}
+
+.settings-icon {
+  color: rgb(255, 255, 255);
+}
+
+.shopping-cart {
+  margin: 0;
+  padding: 0;
 }

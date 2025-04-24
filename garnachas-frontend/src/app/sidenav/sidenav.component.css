@@ -12,7 +12,7 @@
     cursor: pointer;
     position: fixed;
     top: 20px;
-    left: 5px;
+    left: 25px;
     z-index: 3000;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: left 0.3s ease;
@@ -25,7 +25,7 @@
   .sidenav {
     position: fixed;
     top: 0;
-    left: -300px;
+    left: -280px;
     width: 300px;
     height: 100%;
     background: var(--primary-color);
@@ -34,7 +34,7 @@
     flex-direction: column;
     padding: 20px;
     transition: left 0.3s ease;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 0 5px rgba(20,20,20);
     z-index: 2000; /* Ensure it overlays other content */
   }
   
@@ -67,3 +67,27 @@
     background: var(--secondary-color);
   }
   
+  .brand-logo {
+    display: block;
+    box-shadow: 0 2px 5px 0 rgba(83, 75, 75, 0.5);
+    height: 179px;
+  }
+
+  .brand-logo img {
+    transform: scale(0.18, 0.18);
+    margin-top: -425px;
+    margin-left: -360px;
+    /* opacity: 0.9; */
+    display: inline-block;
+    transition: margin-left 0.3s !important;
+  }
+
+  .app-version-info {
+    position: relative;
+   left: 80%;
+   top: 250px;
+    color: rgb(255, 255, 255);
+    font-style: italic;
+    font-size: 0.8em;
+    visibility: visible;
+  }

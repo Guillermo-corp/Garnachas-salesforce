@@ -6,6 +6,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule} from '@angular/forms';
+import { CartService } from '../services/cart.service'; // Importar el servicio
 
 @Component({
   selector: 'app-home',
@@ -19,6 +24,10 @@ import {MatIconModule} from '@angular/material/icon';
     MatProgressBarModule,
     MatChipsModule,
     MatIconModule,
+    MatStepperModule,
+    MatInputModule,
+    MatButtonModule,
+    ReactiveFormsModule,
   ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -26,7 +35,6 @@ import {MatIconModule} from '@angular/material/icon';
 export class HomeComponent {
   pageSize: number = 4;
   currentPage: number = 0;
-  
   paginatedList: any[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -170,9 +178,11 @@ export class HomeComponent {
     description: 'Descripción de la picadas.',
     price: 12.0,
   } */
+  constructor(private cartService: CartService) {} // Inyectar el servicio
+
   addToCart(item: any): void {
+    this.cartService.addToCart(item); // Agregar al carrito usando el servicio
     console.log('Added to cart:', item);
-    // Add logic to handle adding the item to the cart
   }
 
   removeFromCart(item: any): void {
