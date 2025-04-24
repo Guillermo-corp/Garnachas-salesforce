@@ -69,7 +69,7 @@
   
   .brand-logo {
     display: block;
-    box-shadow: 0 2px 5px 0 rgba(83, 75, 75, 0.5);
+    box-shadow: 0 2px 5px 0 rgba(128, 127, 127, 0.5);
     height: 179px;
   }
 
@@ -84,8 +84,8 @@
 
   .app-version-info {
     position: relative;
-   left: 80%;
-   top: 250px;
+  
+   top: 180px;
     color: rgb(255, 255, 255);
     font-style: italic;
     font-size: 0.8em;
