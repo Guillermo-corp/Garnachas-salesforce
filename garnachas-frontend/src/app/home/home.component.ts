@@ -56,7 +56,7 @@ export class HomeComponent {
       {
         name: 'Garnacha',
         description: 'Descripción de la garnacha.',
-        price: 12.0,
+        price: 12,
         image: 'https://i.ytimg.com/vi/Yz4ljMJOhKU/maxresdefault.jpg',
         size: 'Mediano',
         spiceLevel: 'Picante',
@@ -66,7 +66,7 @@ export class HomeComponent {
       {
         name: 'Quesadilla',
         description: 'Descripción de la quesadilla.',
-        price: 14.0,
+        price: 14,
         image: 'https://editorialtelevisa.brightspotcdn.com/wp-content/uploads/2019/11/quesadillas-veracruzanas.jpg',
         size: 'Grande',
         spiceLevel: 'No picante',
@@ -76,7 +76,7 @@ export class HomeComponent {
       {
         name: 'Tempispis',
         description: 'Descripción de la tempispis.',
-        price: 15.0,
+        price: 15,
         image: 'https://animalgourmet.com/wp-content/uploads/2020/05/image0-1.jpeg',
         size: 'Pequeño',
         spiceLevel: 'No picante',
@@ -86,7 +86,7 @@ export class HomeComponent {
       {
         name: 'Gorditas',
         description: 'Descripción de la gordita.',
-        price: 14.0,
+        price: 14,
         image: 'https://i.ytimg.com/vi/GnArHf0i5nE/maxresdefault.jpg',
         size: 'Grande',
         spiceLevel: 'Dulce',
@@ -96,7 +96,7 @@ export class HomeComponent {
       {
         name: 'Picadas',
         description: 'Descripción de la picada.',
-        price: 12.0,
+        price: 12,
         image: 'https://i.ytimg.com/vi/lhGN9kJeNsw/maxresdefault.jpg',
         size: 'Mediano',
         spiceLevel: 'Picante',
@@ -106,7 +106,7 @@ export class HomeComponent {
       {
         name: 'Sopes',
         description: 'Descripción de los sopes.',
-        price: 14.0,
+        price: 14,
         image: 'https://patijinich.com/es/wp-content/uploads/sites/3/2017/12/610-sopes.jpg',
         size: 'Pequeño',
         spiceLevel: 'No picante',
@@ -116,7 +116,7 @@ export class HomeComponent {
       {
         name: 'Molotes',
         description: 'Descripción de los molotes.',
-        price: 30.0,
+        price: 30,
         image: 'https://curul.com.mx/wp-content/uploads/2022/09/FB_IMG_1664032066408.jpg',
         size: 'Mediano',
         spiceLevel: 'Dulce',
@@ -126,7 +126,7 @@ export class HomeComponent {
       {
         name: 'Chilaquiles',
         description: 'Descripción de los chilaquiles.',
-        price: 20.0,
+        price: 20,
         image: 'https://www.lamichoacanameatmarket.com/wp-content/uploads/2019/03/Chilaquiles-Rojos.jpg',
         size: 'Grande',
         spiceLevel: 'No picante',
@@ -136,7 +136,7 @@ export class HomeComponent {
       {
         name: 'Panuchos',
         description: 'Descripción de los panuchos.',
-        price: 18.0,
+        price: 18,
         image: 'https://i.ytimg.com/vi/87h2fWh4ol4/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDVKZF7rbYAfdrD4yz-qlQLG_i_ew',
         size: 'Mediano',
         spiceLevel: 'No picante',
@@ -183,10 +183,12 @@ export class HomeComponent {
   addToCart(item: any): void {
     this.cartService.addToCart(item); // Agregar al carrito usando el servicio
     console.log('Added to cart:', item);
+    window.alert('Producto agregado al carrito: ' + item.name);
   }
 
   removeFromCart(item: any): void {
     console.log('Removed from cart:', item);
+    window.alert('Producto eliminado del carrito: ' + item.name);
     // Add logic to handle removing the item from the cart
   }
 }
