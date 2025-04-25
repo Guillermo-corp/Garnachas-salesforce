@@ -65,6 +65,7 @@ export class DetallesComponent {
     console.log('Información Personal:', this.personalInfoForm.value);
     console.log('Dirección:', this.addressForm.value);
     console.log('Carrito:', this.cartItems);
+    console.log('Total: $',this.total);
 
     this.cartService.clearCart(); // Clear the cart
     this.cartItems = []; // Reset the cart items in the component

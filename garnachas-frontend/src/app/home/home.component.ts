@@ -187,6 +187,7 @@ export class HomeComponent {
   }
 
   removeFromCart(item: any): void {
+    this.cartService.removeItemFromCart(item); // Lógica para eliminar el producto del carrito
     console.log('Removed from cart:', item);
     window.alert('Producto eliminado del carrito: ' + item.name);
     // Add logic to handle removing the item from the cart

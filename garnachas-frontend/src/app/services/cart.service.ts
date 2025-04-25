@@ -31,8 +31,16 @@ export class CartService {
   }
 
   removeItemFromCart(item: any): void {
-    const currentItems = this.cartItems.getValue().filter(cartItem => cartItem.id !== item.id);
-    this.cartItems.next(currentItems); // Emitir cambios
+    const currentItems = this.cartItems.getValue();
+    const updatedItems = currentItems.map(cartItem => {
+      if (cartItem.name === item.name) {
+        // Decrement quantity if IDs match
+        return { ...cartItem, quantity: cartItem.quantity - 1 };
+      }
+      return cartItem; // Keep other items unchanged
+    }).filter(cartItem => cartItem.quantity > 0); // Remove items with quantity <= 0
+
+    this.cartItems.next(updatedItems); // Emit updated cart items
   }
 
   navigateToDetailsWithCart(): void {
