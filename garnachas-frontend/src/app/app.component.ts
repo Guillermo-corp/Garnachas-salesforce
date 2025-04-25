@@ -6,6 +6,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CartService } from './services/cart.service'; // Importa el servicio de carrito
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +27,9 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'homes';
   showSearch = false;  
+  cartItemCount: number = 0;
   @ViewChild('searchBox') searchBox!: ElementRef;
+  private cartSubscription!: Subscription;
   
   toggleSearch() {
     this.showSearch = !this.showSearch;
@@ -41,6 +45,27 @@ export class AppComponent {
     if (this.showSearch && this.searchBox && !this.searchBox.nativeElement.contains(event.target)) {
       this.showSearch = false;
     }
+  }
+  constructor(private cartService: CartService) {
+    this.updateCartItemCount();
+    this.cartSubscription = this.cartService.cartItems$.subscribe(cartItems => {
+      this.cartItemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
+    }
+  }
+
+  updateCartItemCount(): void {
+    const cartItems = this.cartService.getCartItems();
+    this.cartItemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
+  }
+
+  navigateToDetails(): void {
+    this.cartService.navigateToDetailsWithCart();
   }
 }
 

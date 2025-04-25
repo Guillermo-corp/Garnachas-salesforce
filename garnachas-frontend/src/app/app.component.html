@@ -12,8 +12,8 @@
         <!-- Ícono del carrito de compras -->
         
         <ul class="shopping-cart">
-            <a href="/detalles" aria-label="Carrito de compras">
-              <mat-icon matBadge="1" matBadgePosition="above after" matBadgeSize="small" matBadgeColor="primary" class="ShoppingCart">
+            <a (click)="navigateToDetails()" aria-label="Carrito de compras">
+              <mat-icon matBadge="{{ cartItemCount }}" matBadgePosition="above after" matBadgeSize="small" matBadgeColor="primary" class="ShoppingCart">
               shopping_cart</mat-icon>
             </a>
         </ul>
