@@ -4,12 +4,11 @@
     <button class="primary" type="button" (click)="filterResults(filter.value)">Buscar</button>
   </form>
 </section> -->
-<br>
+
 <section class="home-container">
   <div class="menu-title-container">
     <h1 class="title">Menú</h1>
   </div>
-
   <div class="product-grid">
     <mat-card *ngFor="let item of paginatedList" class="example" appearance="outlined">
       <mat-card-header>
@@ -48,3 +47,4 @@
     [pageSizeOptions]="[4, 8, 12]"
     (page)="onPageChange($event)">
   </mat-paginator>
+</section>

@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { CartService } from './services/cart.service'; // Importa el servicio de carrito
 import { Subscription } from 'rxjs';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,

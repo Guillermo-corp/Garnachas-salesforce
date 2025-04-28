@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule} from '@angular/forms';
 import { CartService } from '../services/cart.service'; // Importar el servicio
+import { track } from '@vercel/analytics';
 
 @Component({
   selector: 'app-home',
@@ -184,6 +185,9 @@ export class HomeComponent {
     this.cartService.addToCart(item); // Agregar al carrito usando el servicio
     console.log('Added to cart:', item);
     window.alert('Producto agregado al carrito: ' + item.name);
+
+     // Rastrear el evento de agregar al carrito
+    track('add_to_cart', { itemName: item.name, itemPrice: item.price });
   }
 
   removeFromCart(item: any): void {
