@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CartService } from './services/cart.service'; // Importa el servicio de carrito
 import { Subscription } from 'rxjs';
+import { track } from '@vercel/analytics';
 
 
 @Component({
@@ -67,6 +68,8 @@ export class AppComponent {
 
   navigateToDetails(): void {
     this.cartService.navigateToDetailsWithCart();
+
+    track('navigate_to_cart', { cartItemCount: this.cartItemCount });
   }
 }
 
