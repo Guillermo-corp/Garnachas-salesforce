@@ -9,8 +9,10 @@ import { CommonModule } from '@angular/common';
 import { CartService } from './services/cart.service'; // Importa el servicio de carrito
 import { Subscription } from 'rxjs';
 import { track } from '@vercel/analytics';
+import { inject } from "@vercel/analytics"
 
 
+inject();
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -71,6 +73,7 @@ export class AppComponent {
 
     track('navigate_to_cart', { cartItemCount: this.cartItemCount });
   }
+  
 }
 
 
