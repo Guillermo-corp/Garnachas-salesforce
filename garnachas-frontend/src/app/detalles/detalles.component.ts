@@ -8,8 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CartService } from '../services/cart.service'; // Correct the import
-
+import { CartService } from '../services/cart.service'; 
+import { SalesforceService } from '../services/salesforce.service';
 
 @Component({
   selector: 'app-detalles',
@@ -28,11 +28,11 @@ export class DetallesComponent {
 
   personalInfoForm: FormGroup;
   addressForm: FormGroup;
-  cartItems: { name: string; quantity: number; price: number; image: string }[] = []; // Include 'image'
+  cartItems: { name: string; quantity: number; price: number; image: string }[] = []; 
   duration = '2000';
   total: number = 0;
 
-  constructor(private fb: FormBuilder, private cartService: CartService) {
+  constructor(private fb: FormBuilder, private cartService: CartService, private salesforceService: SalesforceService) {
     this.personalInfoForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -60,15 +60,34 @@ export class DetallesComponent {
   }
 
   placeOrder(): void {
-    window.alert('Pedido realizado con éxito!');
+    const purchaseData = {
+      Name: 'Compra 1', // Reemplaza con los campos de tu objeto en Salesforce
+      Total__c: this.total,
+      Items__c: JSON.stringify(this.cartItems), // Serializa los datos del carrito
+      CustomerInfo__c: JSON.stringify(this.personalInfoForm.value), // Información del cliente
+      Address__c: JSON.stringify(this.addressForm.value), // Dirección del cliente
+    };
+
+    this.salesforceService.createPurchaseRecord(purchaseData).subscribe(
+      (response) => {
+        console.log('Compra registrada en Salesforce:', response);
+        window.alert('Compra registrada exitosamente en Salesforce.');
+
+   /*  window.alert('Pedido realizado con éxito!');
     console.log('Pedido realizado con éxito');
     console.log('Información Personal:', this.personalInfoForm.value);
     console.log('Dirección:', this.addressForm.value);
     console.log('Carrito:', this.cartItems);
-    console.log('Total: $',this.total);
+    console.log('Total: $',this.total); */
 
     this.cartService.clearCart(); // Clear the cart
     this.cartItems = []; // Reset the cart items in the component
     this.total = 0; // Reset the total
+  },
+  (error) => {
+    console.error('Error al registrar la compra en Salesforce:', error);
+    window.alert('Hubo un error al registrar la compra en Salesforce.');
+    }
+  );
   }
 }
