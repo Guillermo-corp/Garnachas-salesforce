@@ -45,8 +45,8 @@ export class DetallesComponent {
       zipCode: ['', Validators.required],
     });
 
-    this.cartItems = this.cartService.getCartItems(); // Obtener productos del carrito
-    this.getTotal(); // Calcular el total al inicializar el componente
+    this.cartItems = this.cartService.getCartItems(); 
+    this.getTotal(); 
   }
 
   getTotal(): void {
@@ -60,12 +60,22 @@ export class DetallesComponent {
   }
 
   placeOrder(): void {
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+  
+    const firstName = this.personalInfoForm.value.firstName || 'Cliente';
+    const lastName = this.personalInfoForm.value.lastName || '';
+    const customerName = `${firstName} ${lastName}`.trim();
+  
+    const uniqueName = `Compra ${formattedDate} - Cliente: ${customerName}`;
+  
     const purchaseData = {
-      Name: 'Compra 1', // Reemplaza con los campos de tu objeto en Salesforce
+      Name: uniqueName, 
       Total__c: this.total,
       Items__c: JSON.stringify(this.cartItems), // Serializa los datos del carrito
-      CustomerInfo__c: JSON.stringify(this.personalInfoForm.value), // Información del cliente
-      Address__c: JSON.stringify(this.addressForm.value), // Dirección del cliente
+      CustomerInfo__c: JSON.stringify(this.personalInfoForm.value), 
+      Address__c: JSON.stringify(this.addressForm.value), 
+      Name__c: customerName,
     };
 
     this.salesforceService.createPurchaseRecord(purchaseData).subscribe(
