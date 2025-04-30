@@ -40,7 +40,7 @@ export class SalesforceService {
   constructor(private http: HttpClient) {}
 
   // Método para enviar datos de compra a Salesforce
-  createPurchaseRecord(purchaseData: any): Observable<any> {
+  /* createPurchaseRecord(purchaseData: any): Observable<any> {
     const url = `${this.salesforceBaseUrl}`;
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.accessToken}`,
@@ -65,7 +65,35 @@ export class SalesforceService {
         return throwError(() => error);
       })
     );
-  }
+  } */
+ createPurchaseRecord(purchaseData: any): Observable<any> {
+  const url = `${this.salesforceBaseUrl}`;
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${this.accessToken}`,
+    'Content-Type': 'application/json',
+  });
+
+  return this.http.post(url, purchaseData, { headers }).pipe(
+    catchError((error) => {
+      if (error.status === 401) {
+        // Si el token expira, intenta renovarlo
+        console.warn('El Access Token ha expirado. Intentando renovarlo...');
+        return this.refreshAccessToken().pipe(
+          switchMap((newAccessToken) => {
+            // Reintenta la solicitud con el nuevo token
+            const newHeaders = new HttpHeaders({
+              Authorization: `Bearer ${newAccessToken}`,
+              'Content-Type': 'application/json',
+            });
+            return this.http.post(url, purchaseData, { headers: newHeaders });
+          })
+        );
+      }
+      console.error('Error al realizar la solicitud:', error);
+      return throwError(() => error);
+    })
+  );
+}
 
   // Método para renovar el Access Token
   private refreshAccessToken(): Observable<string> {
@@ -75,16 +103,22 @@ export class SalesforceService {
       .set('refresh_token', environment.salesforce.refreshToken)
       .set('client_id', environment.salesforce.clientId)
       .set('client_secret', environment.salesforce.clientSecret);
-
+  
     return this.http.post<any>(url, body.toString(), {
       headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
     }).pipe(
       switchMap((response) => {
-        this.accessToken = response.access_token; // Actualiza el token en memoria
-        return new Observable<string>((observer) => {
-          observer.next(this.accessToken);
-          observer.complete();
-        });
+        if (response.access_token) {
+          this.accessToken = response.access_token; // Actualiza el token en memoria
+          console.log('Access Token renovado exitosamente.');
+          return new Observable<string>((observer) => {
+            observer.next(this.accessToken);
+            observer.complete();
+          });
+        } else {
+          console.error('No se recibió un nuevo Access Token en la respuesta.');
+          return throwError(() => new Error('No se pudo renovar el Access Token.'));
+        }
       }),
       catchError((error) => {
         console.error('Error al renovar el Access Token:', error);
