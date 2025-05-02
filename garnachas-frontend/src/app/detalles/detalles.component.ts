@@ -109,14 +109,12 @@ export class DetallesComponent {
       quantity: item.quantity,
     }));
   
-    const salesforceUrl = `${environment.salesforce.baseUrl}/services/apexrest/StripeService`;
-  
-    this.salesforceService.createPurchaseRecord({ cartItems }).subscribe(
-      (response) => {
-        if (response.url) {
-          window.location.href = response.url; // Redirige a Stripe Checkout
+    this.salesforceService.createStripeSession(cartItems).subscribe(
+      (data) => {
+        if (data.url) {
+          window.location.href = data.url; // Redirige a Stripe Checkout
         } else {
-          console.error('Error al crear la sesión de pago:', response);
+          console.error('Error al crear la sesión de pago:', data);
         }
       },
       (error) => {

@@ -89,8 +89,7 @@ export class SalesforceService {
           return throwError(() => error);
         })
       );
-
-      return this.http.post(url, purchaseData, { headers: this.getHeaders() }).pipe(
+      /* return this.http.post(url, purchaseData, { headers: this.getHeaders() }).pipe(
         catchError((error) => {
           if (error.status === 401) {
             // Si el token expira, intenta renovarlo
@@ -107,6 +106,20 @@ export class SalesforceService {
           }
           return throwError(() => error);
         })
-      );
+      ); */
     }
+      createStripeSession(cartItems: any[]): Observable<any> {
+        const url = `${this.baseUrl}/services/apexrest/StripeService`; // URL de tu clase Apex en Salesforce
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${this.accessToken}`, // Usa el Access Token
+          'Content-Type': 'application/json',
+        });
+      
+        return this.http.post(url, { cartItems }, { headers }).pipe(
+          catchError((error) => {
+            console.error('Error al crear la sesión de Stripe en Salesforce:', error);
+            return throwError(() => error);
+          })
+        );
+      }
   }
