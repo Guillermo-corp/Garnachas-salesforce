@@ -79,7 +79,17 @@ export class SalesforceService {
     // Método para enviar datos de compra a Salesforce
     createPurchaseRecord(purchaseData: any): Observable<any> {
       const url = `${this.baseUrl}/services/data/v62.0/sobjects/Purchase__c`;
-  
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${this.accessToken}`,
+        'Content-Type': 'application/json',
+      });
+      return this.http.post(url, purchaseData, { headers }).pipe(
+        catchError((error) => {
+          console.error('Error al crear el registro en Salesforce:', error);
+          return throwError(() => error);
+        })
+      );
+
       return this.http.post(url, purchaseData, { headers: this.getHeaders() }).pipe(
         catchError((error) => {
           if (error.status === 401) {

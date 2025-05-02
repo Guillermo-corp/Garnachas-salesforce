@@ -105,7 +105,6 @@ export class DetallesComponent {
   createCheckoutSession(): void {
     const cartItems = this.cartItems.map((item) => ({
       name: item.name,
-      description: item.name, // Puedes usar una descripción más detallada si está disponible
       price: item.price,
       quantity: item.quantity,
     }));
