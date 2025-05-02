@@ -19,4 +19,10 @@ mat-horizontal-stepper {
     width: 100px;
     height: 100px;
   }
+  .order-summary {
+    margin-bottom: 20px;
+  }
   
+  button[mat-raised-button] {
+    margin-left: 10px;
+  }

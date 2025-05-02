@@ -69,6 +69,10 @@
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
           <button mat-button color="primary" (click)="placeOrder()" [disabled]="cartItems.length === 0">Finalizar Pedido</button>
+          <!-- Botón para proceder al pago con Stripe -->
+          <button mat-raised-button color="accent" (click)="createCheckoutSession()" [disabled]="cartItems.length === 0">
+          <mat-icon>payment</mat-icon> Pagar con Stripe
+          </button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>

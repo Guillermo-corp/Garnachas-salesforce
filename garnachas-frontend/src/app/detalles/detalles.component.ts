@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../services/cart.service'; 
 import { SalesforceService } from '../services/salesforce.service';
+import { environment } from '../../environments/environments';
 
 @Component({
   selector: 'app-detalles',
@@ -99,5 +100,29 @@ export class DetallesComponent {
     window.alert('Hubo un error al registrar la compra en Salesforce.');
     }
   );
+  }
+
+  createCheckoutSession(): void {
+    const cartItems = this.cartItems.map((item) => ({
+      name: item.name,
+      description: item.name, // Puedes usar una descripción más detallada si está disponible
+      price: item.price,
+      quantity: item.quantity,
+    }));
+  
+    const salesforceUrl = `${environment.salesforce.baseUrl}/services/apexrest/StripeService`;
+  
+    this.salesforceService.createPurchaseRecord({ cartItems }).subscribe(
+      (response) => {
+        if (response.url) {
+          window.location.href = response.url; // Redirige a Stripe Checkout
+        } else {
+          console.error('Error al crear la sesión de pago:', response);
+        }
+      },
+      (error) => {
+        console.error('Error al llamar a Salesforce:', error);
+      }
+    );
   }
 }
