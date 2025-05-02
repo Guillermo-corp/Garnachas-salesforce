@@ -113,13 +113,16 @@ export class DetallesComponent {
     this.salesforceService.createStripeSession(cartItems).subscribe(
       (data) => {
         if (data.url) {
+          console.log('URL de Stripe:', data.url); // Verifica que la URL se imprima correctamente
           window.location.href = data.url; // Redirige a Stripe Checkout
         } else {
-          console.error('Error al crear la sesión de pago:', data);
+          console.error('Error: No se recibió una URL de Stripe.', data);
+          window.alert('Hubo un problema al generar la sesión de pago. Intenta nuevamente.');
         }
       },
       (error) => {
         console.error('Error al llamar a Salesforce:', error);
+        window.alert('Hubo un problema al conectar con el servidor. Intenta nuevamente.');
       }
     );
   }
