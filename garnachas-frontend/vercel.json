@@ -2,12 +2,13 @@
     "version": 2,
     "builds": [
       {
-        "src": "api/**/*.js",
-        "use": "@vercel/node"
+        "src": "src/**/*",
+        "use": "@vercel/static-build",
+        "config": { "distDir": "dist/garnachas-frontend" }
       },
       {
-        "src": "src/**/*",
-        "use": "@vercel/static"
+        "src": "api/**/*.js",
+        "use": "@vercel/node"
       }
     ],
     "routes": [
