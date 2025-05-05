@@ -38,12 +38,16 @@
         </mat-chip-set>
       </mat-card-footer>
       <mat-card-actions class="example-card-actions">
-        <button mat-button color="primary" (click)="addToCart(item)">
-          <mat-icon>add_shopping_cart</mat-icon> Agregar al carrito
+        <div class = "addProduct">
+        <button mat-fab extended (click)="addToCart(item)">
+          <mat-icon>add_shopping_cart</mat-icon> Agregar
         </button>
-        <button mat-button color="warn" (click)="removeFromCart(item)">
-          <mat-icon>delete</mat-icon> Eliminar del carrito
+      </div>
+      <div class = "removeProduct">
+        <button mat-fab extended (click)="removeFromCart(item)">
+          <mat-icon>delete</mat-icon> Eliminar
         </button>
+      </div>
       </mat-card-actions>
     </mat-card>
   </div>
