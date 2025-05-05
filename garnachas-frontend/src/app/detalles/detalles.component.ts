@@ -107,9 +107,12 @@ export class DetallesComponent {
   connectStripeAccount() {
     this.http.post<{ url: string }>('/connect-account', {}).subscribe({
       next: (response) => {
+        console.log('Respuesta de connect-account:', response); // <-- Agrega este log
         window.location.href = response.url; // Redirigir al enlace de conexión de Stripe
       },
-      error: (err) => console.error('Error al conectar cuenta de Stripe:', err),
+      error: (err) => {
+        console.error('Error al conectar cuenta de Stripe:', err); // <-- Log del error recibido
+      },
     });
   }
   createCheckoutSession(): void {
@@ -120,7 +123,10 @@ export class DetallesComponent {
       quantity: item.quantity,
       image: item.image, // Asegúrate de que el objeto tenga la propiedad `image`
     }));
+
+    console.log('Datos enviados a createCheckoutSession:', cartItems); // <-- Agrega este log
   
+    
     this.salesforceService.createCheckoutSession(cartItems).subscribe(
       (data) => {
         if (data.url) {
