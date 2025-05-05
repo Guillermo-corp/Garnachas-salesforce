@@ -9,6 +9,12 @@
   <div class="menu-title-container">
     <h1 class="title">Menú</h1>
   </div>
+  <mat-paginator
+  [length]="filteredLocationList.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[4, 8, 12]"
+  (page)="onPageChange($event)">
+</mat-paginator>
   <div class="product-grid">
     <mat-card *ngFor="let item of paginatedList" class="example" appearance="outlined">
       <mat-card-header>
@@ -41,10 +47,10 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <mat-paginator
+<!--   <mat-paginator
     [length]="filteredLocationList.length"
     [pageSize]="pageSize"
     [pageSizeOptions]="[4, 8, 12]"
     (page)="onPageChange($event)">
-  </mat-paginator>
+  </mat-paginator> -->
 </section>

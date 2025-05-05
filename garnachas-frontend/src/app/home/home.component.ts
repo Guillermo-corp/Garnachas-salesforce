@@ -1,17 +1,18 @@
 import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
-import { MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule} from '@angular/forms';
-import { CartService } from '../services/cart.service'; // Importar el servicio
+import { ReactiveFormsModule } from '@angular/forms';
+import { CartService } from '../services/cart.service'; 
 import { track } from '@vercel/analytics';
+import { CustomPaginatorIntl } from '../services/custom-paginator-intl.service';
 
 @Component({
   selector: 'app-home',
@@ -30,9 +31,11 @@ import { track } from '@vercel/analytics';
     MatButtonModule,
     ReactiveFormsModule,
   ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }, // Registra el servicio personalizado
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class HomeComponent {
   pageSize: number = 4;
   currentPage: number = 0;
