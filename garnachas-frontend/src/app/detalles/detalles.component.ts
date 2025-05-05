@@ -112,4 +112,29 @@ export class DetallesComponent {
       error: (err) => console.error('Error al conectar cuenta de Stripe:', err),
     });
   }
+  createCheckoutSession(): void {
+    const cartItems = this.cartItems.map((item) => ({
+      name: item.name,
+      description: item.name, // Puedes usar una descripción más detallada si está disponible
+      price: item.price,
+      quantity: item.quantity,
+      image: item.image, // Asegúrate de que el objeto tenga la propiedad `image`
+    }));
+  
+    this.salesforceService.createCheckoutSession(cartItems).subscribe(
+      (data) => {
+        if (data.url) {
+          console.log('URL de Stripe:', data.url); // Verifica que la URL se imprima correctamente
+          window.location.href = data.url; // Redirige a Stripe Checkout
+        } else {
+          console.error('Error: No se recibió una URL de Stripe.', data);
+          window.alert('Hubo un problema al generar la sesión de pago. Intenta nuevamente.');
+        }
+      },
+      (error) => {
+        console.error('Error al crear la sesión de Stripe:', error);
+        window.alert('Hubo un problema al conectar con el servidor. Intenta nuevamente.');
+      }
+    );
+  }
 }
