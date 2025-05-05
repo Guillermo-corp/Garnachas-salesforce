@@ -104,7 +104,26 @@ export class DetallesComponent {
   );
   }
 
-  connectStripeAccount() {
+  payWithStripe(): void {
+    const backendUrl = 'http://localhost:3000/create-checkout-session'; // Replace with your backend URL
+
+    this.http.post<{ url: string }>(backendUrl, { cartItems: this.cartItems }).subscribe({
+      next: (response) => {
+        if (response.url) {
+          window.location.href = response.url; // Redirect to Stripe Checkout
+        } else {
+          console.error('No URL returned from Stripe session creation');
+          window.alert('Error al generar la sesión de pago. Intenta nuevamente.');
+        }
+      },
+      error: (err) => {
+        console.error('Error al conectar con el servidor:', err);
+        window.alert('Hubo un problema al conectar con el servidor. Intenta nuevamente.');
+      },
+    });
+  }
+
+ /*  connectStripeAccount() {
     this.http.post<{ url: string }>('/connect-account', {}).subscribe({
       next: (response) => {
         console.log('Respuesta de connect-account:', response); // <-- Agrega este log
@@ -142,5 +161,5 @@ export class DetallesComponent {
         window.alert('Hubo un problema al conectar con el servidor. Intenta nuevamente.');
       }
     );
-  }
+  } */
 }

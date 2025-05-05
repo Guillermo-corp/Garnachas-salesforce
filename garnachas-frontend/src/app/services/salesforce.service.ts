@@ -108,11 +108,11 @@ export class SalesforceService {
         })
       ); */
     }
-
-    createCheckoutSession(cartItems: any[]): Observable<any> {
+    // Método para crear una sesión de Stripe en Vercel
+    /* createCheckoutSession(cartItems: any[]): Observable<any> {
       const url = 'https://garnachas-mx.vercel.app/api/create-checkout-session'; // Cambia a tu dominio en Vercel
       return this.http.post(url, { cartItems, connectedAccountId: 'acct_1RDonfDuneb1ckN1' });
-    }
+    } */
 
     // Método para crear una sesión de Stripe en Salesforce
     /* createStripeSession(cartItems: any[]): Observable<any> {
