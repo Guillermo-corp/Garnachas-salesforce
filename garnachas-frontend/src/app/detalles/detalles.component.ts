@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../services/cart.service'; 
 import { SalesforceService } from '../services/salesforce.service';
-import { environment } from '../../environments/environments';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-detalles',
@@ -33,7 +33,7 @@ export class DetallesComponent {
   duration = '2000';
   total: number = 0;
 
-  constructor(private fb: FormBuilder, private cartService: CartService, private salesforceService: SalesforceService) {
+  constructor(private fb: FormBuilder, private cartService: CartService, private salesforceService: SalesforceService, private http: HttpClient) {
     this.personalInfoForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -70,16 +70,18 @@ export class DetallesComponent {
   
     const uniqueName = `Compra ${formattedDate} - Cliente: ${customerName}`;
   
-    const purchaseData = {
+    //Purpose: Crear un registro de compra en Salesforce
+    // Enviar los datos de compra a Salesforce
+    /* const purchaseData = {
       Name: uniqueName, 
       Total__c: this.total,
       Items__c: JSON.stringify(this.cartItems), // Serializa los datos del carrito
       CustomerInfo__c: JSON.stringify(this.personalInfoForm.value), 
       Address__c: JSON.stringify(this.addressForm.value), 
       Name__c: customerName,
-    };
+    }; */
 
-    this.salesforceService.createPurchaseRecord(purchaseData).subscribe(
+    this.salesforceService.createPurchaseRecord().subscribe(
       (response) => {
         console.log('Compra registrada en Salesforce:', response);
         window.alert('Compra registrada exitosamente en Salesforce.');
@@ -102,28 +104,12 @@ export class DetallesComponent {
   );
   }
 
-  createCheckoutSession(): void {
-    const cartItems = this.cartItems.map((item) => ({
-      name: item.name,
-      description: item.name,
-      price: item.price,
-      quantity: item.quantity,
-    }));
-  
-    this.salesforceService.createStripeSession(cartItems).subscribe(
-      (data) => {
-        if (data.url) {
-          console.log('URL de Stripe:', data.url); // Verifica que la URL se imprima correctamente
-          window.location.href = data.url; // Redirige a Stripe Checkout
-        } else {
-          console.error('Error: No se recibió una URL de Stripe.', data);
-          window.alert('Hubo un problema al generar la sesión de pago. Intenta nuevamente.');
-        }
+  connectStripeAccount() {
+    this.http.post<{ url: string }>('/connect-account', {}).subscribe({
+      next: (response) => {
+        window.location.href = response.url; // Redirigir al enlace de conexión de Stripe
       },
-      (error) => {
-        console.error('Error al llamar a Salesforce:', error);
-        window.alert('Hubo un problema al conectar con el servidor. Intenta nuevamente.');
-      }
-    );
+      error: (err) => console.error('Error al conectar cuenta de Stripe:', err),
+    });
   }
 }

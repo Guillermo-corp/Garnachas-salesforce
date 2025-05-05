@@ -71,7 +71,11 @@
           <button mat-button color="primary" (click)="placeOrder()" [disabled]="cartItems.length === 0">Finalizar Pedido</button>
           <!-- Botón para proceder al pago con Stripe -->
           <button mat-raised-button color="accent" (click)="createCheckoutSession()" [disabled]="cartItems.length === 0">
-          <mat-icon>payment</mat-icon> Pagar con Stripe
+            <mat-icon>payment</mat-icon> Pagar con Stripe
+          </button>
+          <!-- Botón para conectar cuenta de Stripe -->
+          <button mat-raised-button color="primary" (click)="connectStripeAccount()">
+            <mat-icon>link</mat-icon> Conectar Cuenta Stripe
           </button>
         </div>
       </mat-step>

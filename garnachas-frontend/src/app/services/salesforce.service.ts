@@ -40,7 +40,7 @@ export class SalesforceService {
     constructor(private http: HttpClient) {}
   
     // Método para renovar el Access Token usando el Refresh Token
-    private refreshAccessToken(): Observable<string> {
+    /* private refreshAccessToken(): Observable<string> {
       const body = new URLSearchParams();
       body.set('grant_type', 'refresh_token');
       body.set('refresh_token', environment.salesforce.refreshToken);
@@ -66,7 +66,7 @@ export class SalesforceService {
           return throwError(() => error);
         })
       );
-    }
+    } */
   
     // Método para realizar solicitudes a Salesforce
     private getHeaders(): HttpHeaders {
@@ -77,13 +77,13 @@ export class SalesforceService {
     }
   
     // Método para enviar datos de compra a Salesforce
-    createPurchaseRecord(purchaseData: any): Observable<any> {
+    createPurchaseRecord(): Observable<any> {
       const url = `${this.baseUrl}/services/data/v62.0/sobjects/Purchase__c`;
       const headers = new HttpHeaders({
         Authorization: `Bearer ${this.accessToken}`,
         'Content-Type': 'application/json',
       });
-      return this.http.post(url, purchaseData, { headers }).pipe(
+      return this.http.post(url,{ headers }).pipe(
         catchError((error) => {
           console.error('Error al crear el registro en Salesforce:', error);
           return throwError(() => error);
@@ -108,7 +108,14 @@ export class SalesforceService {
         })
       ); */
     }
-    createStripeSession(cartItems: any[]): Observable<any> {
+
+    createCheckoutSession(cartItems: any[]): Observable<any> {
+      const url = 'https://garnachas-mx.vercel.app/api/create-checkout-session'; // Cambia a tu dominio en Vercel
+      return this.http.post(url, { cartItems, connectedAccountId: 'acct_1RDonfDuneb1ckN1' });
+    }
+
+    // Método para crear una sesión de Stripe en Salesforce
+    /* createStripeSession(cartItems: any[]): Observable<any> {
       const url = `${this.baseUrl}/services/apexrest/StripeService`; // URL de tu clase Apex en Salesforce
       const headers = new HttpHeaders({
         Authorization: `Bearer ${this.accessToken}`, // Usa el Access Token
@@ -121,5 +128,5 @@ export class SalesforceService {
           return throwError(() => error);
         })
       );
-    }
+    } */
   }
