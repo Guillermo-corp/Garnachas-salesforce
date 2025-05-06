@@ -50,25 +50,25 @@ export class HomeComponent {
   
   // Complementos de los productos
   sizes: string[] = ['Pequeño', 'Mediano', 'Grande'];
-  spiceLevels: string[] = ['No picante', 'Picante', 'Dulce'];
+  sauces: string[] = ['No picante', 'Picante', 'Dulce'];
 
   selectedSize: string | null = null;
-  selectedSpiceLevel: string | null = null;
+  selectedSauce: string | null = null;
 
   sizesControl = new FormControl();
-  spiceLevelsControl = new FormControl();
+  sauceControl = new FormControl();
 
   filteredSizes: string[] = this.sizes;
-  filteredSpiceLevels: string[] = this.spiceLevels;
+  filteredSauces: string[] = this.sauces;
 
   onSizeSelected(event: MatAutocompleteSelectedEvent) {
     this.selectedSize = event.option.value;
     console.log('Selected size:', this.selectedSize);
   }
 
-  onSpiceLevelSelected(event: MatAutocompleteSelectedEvent) {
-    this.selectedSpiceLevel = event.option.value;
-    console.log('Selected spice level:', this.selectedSpiceLevel);
+  onSauceSelected(event: MatAutocompleteSelectedEvent) {
+    this.selectedSauce = event.option.value;
+    console.log('Selected sauce:', this.selectedSauce);
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -35,7 +35,7 @@
           <input
             type="text"
             matInput
-            placeholder="Tipo de tamaño"
+            placeholder="Tamaño"
             [matAutocomplete]="sizeAuto"
             [formControl]="sizesControl"
           />
@@ -49,20 +49,20 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="spice-autocomplete">
+        <mat-form-field appearance="fill" class="sauce-autocomplete">
           <input
             type="text"
             matInput
-            placeholder="Nivel de picante"
-            [matAutocomplete]="spiceAuto"
-            [formControl]="spiceLevelsControl"
+            placeholder="Salsa"
+            [matAutocomplete]="sauceAuto"
+            [formControl]="sauceControl"
           />
           <mat-autocomplete
-            #spiceAuto="matAutocomplete"
-            (optionSelected)="onSpiceLevelSelected($event)"
+            #sauceAuto="matAutocomplete"
+            (optionSelected)="onSauceSelected($event)"
           >
-            <mat-option *ngFor="let spiceLevel of filteredSpiceLevels" [value]="spiceLevel">
-              {{ spiceLevel }}
+            <mat-option *ngFor="let sauce of filteredSauces" [value]="sauce">
+              {{ sauce }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>

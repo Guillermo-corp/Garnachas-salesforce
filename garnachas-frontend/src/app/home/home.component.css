@@ -108,6 +108,7 @@
   .example-card-footer{
     justify-content: center;
     display: flex;
+    
   }
   .example-card-actions .addProduct{
     display: flex;
@@ -154,8 +155,10 @@
   }
 
   .size-autocomplete,
-  .spice-autocomplete {
+  .spice-autocomplete,
+  .sauce-autocomplete {
     width: 100%;
-    max-width: 300px;
+    max-width: 200px; /* Ensure consistent size */
     margin: 0 10px;
   }
+
