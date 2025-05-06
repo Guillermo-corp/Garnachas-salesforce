@@ -31,11 +31,41 @@
       </mat-card-content>
       <br>
       <mat-card-footer class="example-card-footer">
-        <mat-chip-set>
-          <mat-chip color="warn">{{ item.size }}</mat-chip>
-          <mat-chip color="primary">{{ item.spiceLevel }}</mat-chip>
-          <mat-chip color="accent">{{ item.category }}</mat-chip>
-        </mat-chip-set>
+        <mat-form-field appearance="fill" class="size-autocomplete">
+          <input
+            type="text"
+            matInput
+            placeholder="Tipo de tamaño"
+            [matAutocomplete]="sizeAuto"
+            [formControl]="sizesControl"
+          />
+          <mat-autocomplete
+            #sizeAuto="matAutocomplete"
+            (optionSelected)="onSizeSelected($event)"
+          >
+            <mat-option *ngFor="let size of filteredSizes" [value]="size">
+              {{ size }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="spice-autocomplete">
+          <input
+            type="text"
+            matInput
+            placeholder="Nivel de picante"
+            [matAutocomplete]="spiceAuto"
+            [formControl]="spiceLevelsControl"
+          />
+          <mat-autocomplete
+            #spiceAuto="matAutocomplete"
+            (optionSelected)="onSpiceLevelSelected($event)"
+          >
+            <mat-option *ngFor="let spiceLevel of filteredSpiceLevels" [value]="spiceLevel">
+              {{ spiceLevel }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
       </mat-card-footer>
       <mat-card-actions class="example-card-actions">
         <div class = "addProduct">

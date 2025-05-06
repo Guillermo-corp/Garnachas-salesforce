@@ -4,7 +4,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../services/cart.service'; 
 import { track } from '@vercel/analytics';
 import { CustomPaginatorIntl } from '../services/custom-paginator-intl.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FormControl } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatOptionModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-home',
@@ -24,12 +28,14 @@ import { CustomPaginatorIntl } from '../services/custom-paginator-intl.service';
     MatPaginatorModule,
     MatCardModule,
     MatProgressBarModule,
-    MatChipsModule,
+    MatButtonToggleModule,
     MatIconModule,
     MatStepperModule,
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
+    MatAutocompleteModule, // Add this
+    MatOptionModule,       // Add this
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }, // Registra el servicio personalizado
@@ -40,6 +46,30 @@ export class HomeComponent {
   pageSize: number = 4;
   currentPage: number = 0;
   paginatedList: any[] = [];
+  
+  
+  // Complementos de los productos
+  sizes: string[] = ['Pequeño', 'Mediano', 'Grande'];
+  spiceLevels: string[] = ['No picante', 'Picante', 'Dulce'];
+
+  selectedSize: string | null = null;
+  selectedSpiceLevel: string | null = null;
+
+  sizesControl = new FormControl();
+  spiceLevelsControl = new FormControl();
+
+  filteredSizes: string[] = this.sizes;
+  filteredSpiceLevels: string[] = this.spiceLevels;
+
+  onSizeSelected(event: MatAutocompleteSelectedEvent) {
+    this.selectedSize = event.option.value;
+    console.log('Selected size:', this.selectedSize);
+  }
+
+  onSpiceLevelSelected(event: MatAutocompleteSelectedEvent) {
+    this.selectedSpiceLevel = event.option.value;
+    console.log('Selected spice level:', this.selectedSpiceLevel);
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
