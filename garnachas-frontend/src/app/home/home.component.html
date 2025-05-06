@@ -31,7 +31,8 @@
       </mat-card-content>
       <br>
       <mat-card-footer class="example-card-footer">
-        <mat-form-field appearance="fill" class="size-autocomplete">
+        <div class="form-field-container">
+        <mat-form-field class="size-autocomplete" appearance="outline">
           <input
             type="text"
             matInput
@@ -49,7 +50,7 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="sauce-autocomplete">
+        <mat-form-field class="sauce-autocomplete" appearance="outline">
           <input
             type="text"
             matInput
@@ -66,6 +67,7 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+        </div>
       </mat-card-footer>
       <mat-card-actions class="example-card-actions">
         <div class = "addProduct">

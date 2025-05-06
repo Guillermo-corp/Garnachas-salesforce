@@ -43,7 +43,8 @@
   }
   
   input[type="text"] {
-    border: solid 1px var(--primary-color);
+    border: none; /* Remove border */
+    background: none; /* Remove background */
     padding: 4px 8px;
     border-radius: 8px;
     font-size: 15px;
@@ -105,10 +106,9 @@
     box-shadow: 0 4px 8px rgb(20, 20, 20);
     transition: transform 0.3s, box-shadow 0.3s;
   }
-  .example-card-footer{
+  .example-card-footer {
     justify-content: center;
     display: flex;
-    
   }
   .example-card-actions .addProduct{
     display: flex;
@@ -154,23 +154,32 @@
     padding: 16px;
   }
 
-  .form-field-container {
+  :host .form-field-container {
     display: flex;
     justify-content: center;
     gap: 12px;
     flex-wrap: wrap;
-    width: 100%;
+    width: 10px;
+    margin-top: 10px;
+  }
+
+  :host ::ng-deep .form-field-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    width: 10px;
     margin-top: 10px;
   }
   
   .size-autocomplete,
   .sauce-autocomplete {
     flex: 1 1 45%;
-    min-width: 100px;
-    max-width: 200px;
-    height: 70px;;
+    min-width: 140px;
+    max-width: 100px;
   }
   
+  /* Versión móvil: uno debajo del otro */
   @media (max-width: 600px) {
     .size-autocomplete,
     .sauce-autocomplete {
@@ -178,4 +187,6 @@
       max-width: 100%;
     }
   }
-  
+
+
+

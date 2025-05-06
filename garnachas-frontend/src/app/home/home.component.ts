@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
@@ -17,15 +17,19 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
+  encapsulation: ViewEncapsulation.None, // Desactiva la encapsulación de estilos
   imports: [
     CommonModule,
     MatPaginatorModule,
+    MatFormFieldModule,
     MatCardModule,
     MatProgressBarModule,
     MatButtonToggleModule,
@@ -39,8 +43,9 @@ import { MatOptionModule } from '@angular/material/core';
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }, // Registra el servicio personalizado
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }, // Set appearance to outline
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush, 
 })
 export class HomeComponent {
   pageSize: number = 4;
