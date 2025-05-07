@@ -10,8 +10,9 @@ import { CartService } from './services/cart.service'; // Importa el servicio de
 import { Subscription } from 'rxjs';
 import { track } from '@vercel/analytics';
 import { inject } from "@vercel/analytics"
+import { injectSpeedInsights } from '@vercel/speed-insights';
 
-
+injectSpeedInsights();
 inject();
 @Component({
   selector: 'app-root',

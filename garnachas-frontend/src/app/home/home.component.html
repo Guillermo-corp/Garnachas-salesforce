@@ -38,11 +38,11 @@
             matInput
             placeholder="Tamaño"
             [matAutocomplete]="sizeAuto"
-            [formControl]="sizesControl"
+            [formControl]="item.sizeControl"
           />
           <mat-autocomplete
             #sizeAuto="matAutocomplete"
-            (optionSelected)="onSizeSelected($event)"
+            (optionSelected)="onSizeSelected($event, item)"
           >
             <mat-option *ngFor="let size of filteredSizes" [value]="size">
               {{ size }}
