@@ -74,6 +74,8 @@ input {
 
 .user-icon {
   color: rgb(255, 255, 255);
+  cursor: pointer;
+  font-size: 24px;
 }
 
 .ShoppingCart {
@@ -87,4 +89,9 @@ input {
 .shopping-cart {
   margin: 0;
   padding: 0;
+}
+
+
+mat-menu {
+  width: 80px;
 }

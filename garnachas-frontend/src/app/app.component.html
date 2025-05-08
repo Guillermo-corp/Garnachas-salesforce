@@ -18,9 +18,25 @@
             </a>
         </ul>
        <!-- Ícono del perfil de usuario -->
-        <a href="/profile" aria-label="Perfil de usuario">
+
+        <!-- <a href="/login" aria-label="Perfil de usuario">
+          <mat-icon class="user-icon">account_circle</mat-icon>
+        </a> -->
+        <!-- <a [routerLink]="isAuthenticated() ? '/' : '/login'" aria-label="Perfil de usuario">
+          <mat-icon class="user-icon">account_circle</mat-icon>
+        </a> -->
+        <a [matMenuTriggerFor]="profileMenu" aria-label="Perfil de usuario">
           <mat-icon class="user-icon">account_circle</mat-icon>
         </a>
+        
+        <mat-menu #profileMenu="matMenu">
+          <ng-container *ngIf="isAuthenticated(); else loginOption">
+            <button mat-menu-item (click)="onLogout()">Cerrar sesión</button>
+          </ng-container>
+          <ng-template #loginOption>
+            <button mat-menu-item [routerLink]="'/login'">Iniciar sesión</button>
+          </ng-template>
+        </mat-menu>
         <!-- Otro ícono adicional -->
         <a href="/settings" aria-label="Configuración">
          <mat-icon class="settings-icon">settings</mat-icon>

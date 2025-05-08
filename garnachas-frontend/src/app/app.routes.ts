@@ -4,6 +4,8 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { DetallesComponent } from './detalles/detalles.component';
 import { StripecancelComponent } from './stripecancel/stripecancel.component';
 import { StripesuccessComponent } from './stripesuccess/stripesuccess.component';
+import { LoginComponent } from './auth/login/login.component';
+
 
 const routeConfig: Routes = [
  
@@ -32,6 +34,18 @@ const routeConfig: Routes = [
         component: StripesuccessComponent,
         title: 'Stripe Success'
     }
+    ,
+    {
+        path : 'login',
+        component: LoginComponent, 
+        title: 'Login'
+    },
+    {
+        path : '',
+        redirectTo: '/',
+        pathMatch: 'full'
+    }
+    
 ];
 export default routeConfig;
 

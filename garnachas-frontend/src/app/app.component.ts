@@ -4,6 +4,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CartService } from './services/cart.service'; // Importa el servicio de carrito
@@ -11,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { track } from '@vercel/analytics';
 import { inject } from "@vercel/analytics"
 import { injectSpeedInsights } from '@vercel/speed-insights';
+import { Router } from '@angular/router';
 
 injectSpeedInsights();
 inject();
@@ -20,6 +23,8 @@ inject();
   imports: [
     RouterOutlet,
     MatPaginatorModule,
+    MatButtonModule,
+    MatMenuModule,
     SidenavComponent,
     MatBadgeModule, 
     MatIconModule,
@@ -51,13 +56,18 @@ export class AppComponent {
       this.showSearch = false;
     }
   }
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private router: Router) {
     this.updateCartItemCount();
     this.cartSubscription = this.cartService.cartItems$.subscribe(cartItems => {
       this.cartItemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
     });
-  }
 
+  }
+  onLogout(): void {
+    localStorage.removeItem('userToken'); // Elimina el token de autenticación
+    this.router.navigate(['/login']); // Redirige al login
+  }
+  
   ngOnDestroy(): void {
     if (this.cartSubscription) {
       this.cartSubscription.unsubscribe();
@@ -74,6 +84,11 @@ export class AppComponent {
 
     track('navigate_to_cart', { cartItemCount: this.cartItemCount });
   }
+ 
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('userToken');
+  }
+
   
 }
 
