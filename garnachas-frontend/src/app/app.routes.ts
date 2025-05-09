@@ -5,6 +5,7 @@ import { DetallesComponent } from './detalles/detalles.component';
 import { StripecancelComponent } from './stripecancel/stripecancel.component';
 import { StripesuccessComponent } from './stripesuccess/stripesuccess.component';
 import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 
 const routeConfig: Routes = [
@@ -39,6 +40,11 @@ const routeConfig: Routes = [
         path : 'login',
         component: LoginComponent, 
         title: 'Login'
+    },
+    {
+        path : 'register',
+        component: RegisterComponent,
+        title: 'Register'
     },
     {
         path : '',
