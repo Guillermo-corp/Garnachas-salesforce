@@ -116,6 +116,17 @@ export class SalesforceService {
     );
   }
 
+  createDireccion(direccionData: any): Observable<any> {
+    const url = `${this.baseUrl}/services/data/v62.0/sobjects/Direccion__c`;
+    const headers = this.getHeaders();
+    return this.http.post(url, direccionData, { headers }).pipe(
+      catchError((error) => {
+        console.error('Error al crear Direccion__c:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
   // Método para crear una sesión de Stripe en Vercel
   /* createCheckoutSession(cartItems: any[]): Observable<any> {
     const url = 'https://garnachas-mx.vercel.app/api/create-checkout-session'; // Cambia a tu dominio en Vercel

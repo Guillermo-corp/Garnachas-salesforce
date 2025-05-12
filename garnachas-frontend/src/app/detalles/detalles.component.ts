@@ -69,54 +69,71 @@ export class DetallesComponent {
 
   placeOrder(): void {
     const clienteData = {
-      Nombre__c: this.personalInfoForm.value.firstName,
+      Name: this.personalInfoForm.value.firstName,
       Apellido__c: this.personalInfoForm.value.lastName,
-      Direccion__c: JSON.stringify(this.addressForm.value),
       Email__c: this.personalInfoForm.value.email,
     };
 
     this.salesforceService.createCliente(clienteData).subscribe(
       (clienteResponse) => {
         console.log('Cliente creado:', clienteResponse);
-
-        const compraData = {
-          cliente__c: clienteResponse.id, // ID del cliente creado
-          Name: `Compra - ${new Date().toLocaleDateString()}`,
-          Fecha_Compra__c: new Date().toISOString(),
-          Metodo_pago__c: 'Tarjeta', // Cambiar según sea necesario
-          Total__c: this.total,
+      
+        
+        const direccionData = {
+          Calle__c: this.addressForm.value.street,
+          Ciudad__c: this.addressForm.value.city,
+          CP__c: this.addressForm.value.zipCode,
+          Cliente__c: clienteResponse.id, // Asociar la dirección al cliente
         };
 
-        this.salesforceService.createCompra(compraData).subscribe(
-          (compraResponse) => {
-            console.log('Compra creada:', compraResponse);
+        this.salesforceService.createDireccion(direccionData).subscribe(
+          (direccionResponse) => {
+            console.log('Direccion creada:', direccionResponse);
 
-            this.cartItems.forEach((item) => {
-              const platilloData = {
-                Name: item.name,
-                Precio__c: item.price,
-                Relleno__c: item.selectedRelleno || 'Sin especificar', // Usar el tamaño como relleno
-                Imagen_url__c: item.image,
-              };
+            const compraData = {
+              cliente__c: clienteResponse.id, // ID del cliente creado
+              Name: `Compra - ${new Date().toLocaleDateString()}`,
+              Fecha_Compra__c: new Date().toISOString(),
+              Metodo_pago__c: 'Efectivo', // Cambiar según sea necesario
+              Total__c: this.total,
+            };
 
-              this.salesforceService.createPlatillo(platilloData).subscribe(
-                (platilloResponse) => {
-                  console.log('Platillo creado:', platilloResponse);
-                },
-                (error) => {
-                  console.error('Error al crear Platillo__c:', error);
-                }
-              );
-            });
+            this.salesforceService.createCompra(compraData).subscribe(
+              (compraResponse) => {
+                console.log('Compra creada:', compraResponse);
 
-            window.alert('Pedido registrado exitosamente en Salesforce.');
-            this.cartService.clearCart();
-            this.cartItems = [];
-            this.total = 0;
+                this.cartItems.forEach((item) => {
+                  const platilloData = {
+                    Name: item.name,
+                    Precio__c: item.price,
+                    Relleno__c: item.selectedRelleno || 'Sin especificar',
+                    Imagen_url__c: item.image,
+                  };
+
+                  this.salesforceService.createPlatillo(platilloData).subscribe(
+                    (platilloResponse) => {
+                      console.log('Platillo creado:', platilloResponse);
+                    },
+                    (error) => {
+                      console.error('Error al crear Platillo__c:', error);
+                    }
+                  );
+                });
+
+                window.alert('Pedido registrado exitosamente en Salesforce.');
+                this.cartService.clearCart();
+                this.cartItems = [];
+                this.total = 0;
+              },
+              (error) => {
+                console.error('Error al crear Compra__c:', error);
+                window.alert('Hubo un error al registrar la compra.');
+              }
+            );
           },
           (error) => {
-            console.error('Error al crear Compra__c:', error);
-            window.alert('Hubo un error al registrar la compra.');
+            console.error('Error al crear Direccion__c:', error);
+            window.alert('Hubo un error al registrar la dirección.');
           }
         );
       },
