@@ -29,7 +29,14 @@ export class DetallesComponent {
 
   personalInfoForm: FormGroup;
   addressForm: FormGroup;
-  cartItems: { name: string; quantity: number; price: number; image: string }[] = []; 
+  cartItems: { 
+    name: string; 
+    quantity: number; 
+    price: number; 
+    image: string; 
+    selectedRelleno?: string; 
+    relleno?: string; // Add the 'relleno' property explicitly
+  }[] = []; 
   duration = '2000';
   total: number = 0;
 
@@ -61,53 +68,77 @@ export class DetallesComponent {
   }
 
   placeOrder(): void {
-    const currentDate = new Date();
-    const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
-  
-    const firstName = this.personalInfoForm.value.firstName || 'Cliente';
-    const lastName = this.personalInfoForm.value.lastName || '';
-    const customerName = `${firstName} ${lastName}`.trim();
-  
-    const uniqueName = `Compra ${formattedDate} - Cliente: ${customerName}`;
-  
-    //Purpose: Crear un registro de compra en Salesforce
-    // Enviar los datos de compra a Salesforce
-    /* const purchaseData = {
-      Name: uniqueName, 
-      Total__c: this.total,
-      Items__c: JSON.stringify(this.cartItems), // Serializa los datos del carrito
-      CustomerInfo__c: JSON.stringify(this.personalInfoForm.value), 
-      Address__c: JSON.stringify(this.addressForm.value), 
-      Name__c: customerName,
-    }; */
+    const clienteData = {
+      Nombre__c: this.personalInfoForm.value.firstName,
+      Apellido__c: this.personalInfoForm.value.lastName,
+      Direccion__c: JSON.stringify(this.addressForm.value),
+      Email__c: this.personalInfoForm.value.email,
+    };
 
-    this.salesforceService.createPurchaseRecord().subscribe(
-      (response) => {
-        console.log('Compra registrada en Salesforce:', response);
-        window.alert('Compra registrada exitosamente en Salesforce.');
+    this.salesforceService.createCliente(clienteData).subscribe(
+      (clienteResponse) => {
+        console.log('Cliente creado:', clienteResponse);
 
-   /*  window.alert('Pedido realizado con éxito!');
-    console.log('Pedido realizado con éxito');
-    console.log('Información Personal:', this.personalInfoForm.value);
-    console.log('Dirección:', this.addressForm.value);
-    console.log('Carrito:', this.cartItems);
-    console.log('Total: $',this.total); */
+        const compraData = {
+          cliente__c: clienteResponse.id, // ID del cliente creado
+          Name: `Compra - ${new Date().toLocaleDateString()}`,
+          Fecha_Compra__c: new Date().toISOString(),
+          Metodo_pago__c: 'Tarjeta', // Cambiar según sea necesario
+          Total__c: this.total,
+        };
 
-    this.cartService.clearCart(); // Clear the cart
-    this.cartItems = []; // Reset the cart items in the component
-    this.total = 0; // Reset the total
-  },
-  (error) => {
-    console.error('Error al registrar la compra en Salesforce:', error);
-    window.alert('Hubo un error al registrar la compra en Salesforce.');
-    }
-  );
+        this.salesforceService.createCompra(compraData).subscribe(
+          (compraResponse) => {
+            console.log('Compra creada:', compraResponse);
+
+            this.cartItems.forEach((item) => {
+              const platilloData = {
+                Name: item.name,
+                Precio__c: item.price,
+                Relleno__c: item.selectedRelleno || 'Sin especificar', // Usar el tamaño como relleno
+                Imagen_url__c: item.image,
+              };
+
+              this.salesforceService.createPlatillo(platilloData).subscribe(
+                (platilloResponse) => {
+                  console.log('Platillo creado:', platilloResponse);
+                },
+                (error) => {
+                  console.error('Error al crear Platillo__c:', error);
+                }
+              );
+            });
+
+            window.alert('Pedido registrado exitosamente en Salesforce.');
+            this.cartService.clearCart();
+            this.cartItems = [];
+            this.total = 0;
+          },
+          (error) => {
+            console.error('Error al crear Compra__c:', error);
+            window.alert('Hubo un error al registrar la compra.');
+          }
+        );
+      },
+      (error) => {
+        console.error('Error al crear Cliente__c:', error);
+        window.alert('Hubo un error al registrar el cliente.');
+      }
+    );
   }
 
   payWithStripe(): void {
     const backendUrl = 'http://localhost:3000/create-checkout-session'; // Replace with your backend URL
 
-    this.http.post<{ url: string }>(backendUrl, { cartItems: this.cartItems }).subscribe({
+    const stripeCartItems = this.cartItems.map((item) => ({
+      name: item.name,
+      description: `Relleno: ${item.selectedRelleno || 'No especificado'}`, // Agregar el relleno a la descripción
+      price: item.price,
+      quantity: item.quantity,
+      image: item.image,
+    }));
+
+    this.http.post<{ url: string }>(backendUrl, { cartItems: stripeCartItems }).subscribe({
       next: (response) => {
         if (response.url) {
           window.location.href = response.url; // Redirect to Stripe Checkout

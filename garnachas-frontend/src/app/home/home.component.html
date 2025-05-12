@@ -32,23 +32,23 @@
       <br>
       <mat-card-footer class="example-card-footer">
         <div class="form-field-container">
-        <mat-form-field class="size-autocomplete" appearance="outline">
-          <input
-            type="text"
-            matInput
-            placeholder="Tamaño"
-            [matAutocomplete]="sizeAuto"
-            [formControl]="item.sizeControl"
-          />
-          <mat-autocomplete
-            #sizeAuto="matAutocomplete"
-            (optionSelected)="onSizeSelected($event, item)"
-          >
-            <mat-option *ngFor="let size of filteredSizes" [value]="size">
-              {{ size }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+          <mat-form-field class="relleno-autocomplete" appearance="outline">
+            <input
+              type="text"
+              matInput
+              placeholder="Relleno"
+              [matAutocomplete]="rellenoAuto"
+              [formControl]="item.rellenoControl" 
+            />
+            <mat-autocomplete
+              #rellenoAuto="matAutocomplete"
+              (optionSelected)="onRellenoSelected($event, item)"
+            >
+              <mat-option *ngFor="let relleno of rellenos[item.name]" [value]="relleno">
+                {{ relleno }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
 
         <mat-form-field class="sauce-autocomplete" appearance="outline">
           <input

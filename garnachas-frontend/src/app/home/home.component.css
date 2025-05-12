@@ -164,7 +164,7 @@
     
   }
   
-  .size-autocomplete,
+  .relleno-autocomplete,
   .sauce-autocomplete {
     flex: 1 1 45%;
     min-width: 50px;
@@ -173,7 +173,7 @@
   }
   
   @media (max-width: 600px) {
-    .size-autocomplete,
+    .relleno-autocomplete,
     .sauce-autocomplete {
       flex: 1 1 100%;
       max-width: 100%;

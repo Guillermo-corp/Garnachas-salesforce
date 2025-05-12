@@ -52,10 +52,21 @@ export class HomeComponent {
   currentPage: number = 0;
   paginatedList: any[] = [];
   
-  
+  sauces: string[] = ['Salsa roja', 'Salsa verde', 'Salsa de habanero', 'Salsa de chipotle'];
   // Complementos de los productos
-  sizes: string[] = ['Pequeño', 'Mediano', 'Grande'];
-  sauces: string[] = ['No picante', 'Picante', 'Dulce'];
+  rellenos: { [key: string]: string[] } = {
+    Garnacha: ['Queso', 'Pollo', 'Frijol'],
+    Quesadilla: ['Queso', 'Pollo', 'Chicharrón'],
+    Tempispis: ['Queso', 'Frijol', 'Carne'],
+    Gorditas: ['Queso', 'Frijol', 'Chicharrón'],
+    Picadas: ['Queso', 'Pollo', 'Frijol'],
+    Sopes: ['Queso', 'Frijol', 'Carne'],
+    Molotes: ['Queso', 'Pollo', 'Chicharrón'],
+    Chilaquiles: ['Con huevo', 'Sin huevo'],
+    Panuchos: ['Pollo', 'Cochinita Pibil'],
+  };
+
+  selectedRelleno: string | null = null;
 
   selectedSize: string | null = null;
   selectedSauce: string | null = null;
@@ -63,7 +74,6 @@ export class HomeComponent {
   sizesControl = new FormControl();
   sauceControl = new FormControl();
 
-  filteredSizes: string[] = this.sizes;
   filteredSauces: string[] = this.sauces;
 
   onSizeSelected(event: MatAutocompleteSelectedEvent, item: any) {
@@ -74,6 +84,11 @@ export class HomeComponent {
   onSauceSelected(event: MatAutocompleteSelectedEvent) {
     this.selectedSauce = event.option.value;
     console.log('Selected sauce:', this.selectedSauce);
+  }
+
+  onRellenoSelected(event: MatAutocompleteSelectedEvent, item: any) {
+    item.selectedRelleno = event.option.value; // Asocia el relleno seleccionado al producto específico
+    console.log(`Selected relleno for ${item.name}:`, item.selectedRelleno);
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -100,8 +115,8 @@ export class HomeComponent {
         spiceLevel: 'Picante',
         category: 'Tradicional',
         isBestSeller: true,
-        selectedSize: null, // Añadir propiedad para el tamaño seleccionado
-        sizeControl: new FormControl(), // Control específico para el tamaño
+        selectedRelleno: null, // Añadir propiedad para el relleno seleccionado
+        rellenoControl: new FormControl(), // Control específico para el relleno
       },
       {
         name: 'Quesadilla',
@@ -111,8 +126,8 @@ export class HomeComponent {
         spiceLevel: 'No picante',
         category: 'Tradicional',
         isBestSeller: false,
-        selectedSize: null,
-        sizeControl: new FormControl(), // Control específico para el tamaño
+        selectedRelleno: null,
+        rellenoControl: new FormControl(), // Control específico para el relleno
       },
       {
         name: 'Tempispis',
@@ -122,8 +137,8 @@ export class HomeComponent {
         spiceLevel: 'No picante',
         category: 'Tradicional',
         isBestSeller: false,
-        selectedSize: null, // Añadir propiedad para el tamaño seleccionado
-        sizeControl: new FormControl(), // Control específico para el tamaño
+        selectedRelleno: null, // Añadir propiedad para el relleno seleccionado
+        rellenoControl: new FormControl(), // Control específico para el relleno
       },
       {
         name: 'Gorditas',
@@ -133,8 +148,8 @@ export class HomeComponent {
         spiceLevel: 'Dulce',
         category: 'Tradicional',
         isBestSeller: false,
-        selectedSize: null, // Añadir propiedad para el tamaño seleccionado
-        sizeControl: new FormControl(), // Control específico para el tamaño
+        selectedRelleno: null, // Añadir propiedad para el relleno seleccionado
+        rellenoControl: new FormControl(), // Control específico para el relleno
       },
       {
         name: 'Picadas',
@@ -144,8 +159,8 @@ export class HomeComponent {
         spiceLevel: 'Picante',
         category: 'Tradicional',
         isBestSeller: false,
-        selectedSize: null, // Añadir propiedad para el tamaño seleccionado
-        sizeControl: new FormControl(), // Control específico para el tamaño
+        selectedRelleno: null, // Añadir propiedad para el relleno seleccionado
+        rellenoControl: new FormControl(), // Control específico para el relleno
       },
       {
         name: 'Sopes',
@@ -155,8 +170,8 @@ export class HomeComponent {
         spiceLevel: 'No picante',
         category: 'Tradicional',
         isBestSeller: false,
-        selectedSize: null, // Añadir propiedad para el tamaño seleccionado
-        sizeControl: new FormControl(), // Control específico para el tamaño
+        selectedRelleno: null, // Añadir propiedad para el relleno seleccionado
+        rellenoControl: new FormControl(), // Control específico para el relleno
       },
       {
         name: 'Molotes',
@@ -166,8 +181,8 @@ export class HomeComponent {
         spiceLevel: 'Dulce',
         category: 'Tradicional',
         isBestSeller: false,
-        selectedSize: null, // Añadir propiedad para el tamaño seleccionado
-        sizeControl: new FormControl(), // Control específico para el tamaño
+        selectedRelleno: null, // Añadir propiedad para el relleno seleccionado
+        rellenoControl: new FormControl(), // Control específico para el relleno
       },
       {
         name: 'Chilaquiles',
@@ -177,8 +192,8 @@ export class HomeComponent {
         spiceLevel: 'No picante',
         category: 'Tradicional',
         isBestSeller: false,
-        selectedSize: null, // Añadir propiedad para el tamaño seleccionado
-        sizeControl: new FormControl(), // Control específico para el tamaño
+        selectedRelleno: null, // Añadir propiedad para el relleno seleccionado
+        rellenoControl: new FormControl(), // Control específico para el relleno
       },
       {
         name: 'Panuchos',
@@ -188,8 +203,8 @@ export class HomeComponent {
         spiceLevel: 'No picante',
         category: 'Tradicional',
         isBestSeller: false,
-        selectedSize: null, // Añadir propiedad para el tamaño seleccionado
-        sizeControl: new FormControl(), // Control específico para el tamaño
+        selectedRelleno: null, // Añadir propiedad para el relleno seleccionado
+        rellenoControl: new FormControl(), // Control específico para el relleno
       }
     ];
     this.updatePaginatedList();
@@ -229,15 +244,15 @@ export class HomeComponent {
   constructor(private cartService: CartService) {} // Inyectar el servicio
 
   addToCart(item: any): void {
-    if (item.selectedSize) {
-      item.size = item.selectedSize; // Usa el tamaño seleccionado del producto
+    if (item.selectedRelleno) {
+      item.relleno = item.selectedRelleno; // Usa el relleno seleccionado del producto
     }
-    this.cartService.addToCart(item); // Agregar al carrito usando el servicio
+    this.cartService.addToCart({ ...item }); // Clonar el objeto para evitar referencias compartidas
     console.log('Added to cart:', item);
-    window.alert(`Producto agregado al carrito: ${item.name} (Tamaño: ${item.size || 'No especificado'})`);
+    window.alert(`Producto agregado al carrito: ${item.name} (Relleno: ${item.relleno || 'No especificado'})`);
 
     // Rastrear el evento de agregar al carrito
-    track('add_to_cart', { itemName: item.name, itemPrice: item.price, itemSize: item.size });
+    track('add_to_cart', { itemName: item.name, itemPrice: item.price, itemRelleno: item.relleno });
   }
 
   removeFromCart(item: any): void {

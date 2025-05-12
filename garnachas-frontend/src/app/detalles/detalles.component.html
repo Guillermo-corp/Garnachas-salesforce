@@ -60,7 +60,7 @@
             <mat-card-content>
               <p>Cantidad: {{ item.quantity }}</p>
               <p>Precio: ${{ item.price }}</p>
-              <!-- <p>Subtotal: ${{ item.quantity * item.price }}</p> -->
+              <p *ngIf="item.relleno">Relleno: {{ item.relleno }}</p> <!-- Mostrar el relleno correctamente -->
             </mat-card-content>
           </mat-card>
           <h4 *ngIf="cartItems.length > 0">Total: ${{ total }}</h4>
