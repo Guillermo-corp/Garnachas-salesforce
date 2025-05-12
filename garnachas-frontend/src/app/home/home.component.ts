@@ -52,16 +52,16 @@ export class HomeComponent {
   currentPage: number = 0;
   paginatedList: any[] = [];
   
-  sauces: string[] = ['Salsa roja', 'Salsa verde', 'Salsa de habanero', 'Salsa de chipotle'];
+  sauces: string[] = ['Roja', 'Verde', 'Habanero', 'Chipotle Dulce'];
   // Complementos de los productos
   rellenos: { [key: string]: string[] } = {
-    Garnacha: ['Queso', 'Pollo', 'Frijol'],
-    Quesadilla: ['Queso', 'Pollo', 'Chicharrón'],
+    Garnacha: ['Con papa','Sin papa'],
+    Quesadilla: ['Queso', 'Pollo', 'Carne molida'],
     Tempispis: ['Queso', 'Frijol', 'Carne'],
-    Gorditas: ['Queso', 'Frijol', 'Chicharrón'],
-    Picadas: ['Queso', 'Pollo', 'Frijol'],
+    Gorditas: ['Frijol', 'Mole'],
+    Picadas: ['Con huevo', 'Sin huevo'],
     Sopes: ['Queso', 'Frijol', 'Carne'],
-    Molotes: ['Queso', 'Pollo', 'Chicharrón'],
+    Molotes: ['Queso', 'Papa', 'Platano'],
     Chilaquiles: ['Con huevo', 'Sin huevo'],
     Panuchos: ['Pollo', 'Cochinita Pibil'],
   };
@@ -109,7 +109,7 @@ export class HomeComponent {
     this.filteredLocationList = [
       {
         name: 'Garnacha',
-        description: 'Descripción de la garnacha.',
+        description: 'Garnachas al estilo Soledad de Doblado, Veracruz.',
         price: 12,
         image: 'https://i.ytimg.com/vi/Yz4ljMJOhKU/maxresdefault.jpg',
         spiceLevel: 'Picante',
@@ -120,7 +120,7 @@ export class HomeComponent {
       },
       {
         name: 'Quesadilla',
-        description: 'Descripción de la quesadilla.',
+        description: 'quesadilla de maíz junto con queso y con el relleno de tu elección.',
         price: 14,
         image: 'https://editorialtelevisa.brightspotcdn.com/wp-content/uploads/2019/11/quesadillas-veracruzanas.jpg',
         spiceLevel: 'No picante',
@@ -131,7 +131,7 @@ export class HomeComponent {
       },
       {
         name: 'Tempispis',
-        description: 'Descripción de la tempispis.',
+        description: 'tamal de tortilla de maiz acompañado de queso fresco y relleno de tu elección.',
         price: 15,
         image: 'https://animalgourmet.com/wp-content/uploads/2020/05/image0-1.jpeg',
         spiceLevel: 'No picante',
@@ -142,7 +142,7 @@ export class HomeComponent {
       },
       {
         name: 'Gorditas',
-        description: 'Descripción de la gordita.',
+        description: 'base de maiz rellena a tu elección.',
         price: 14,
         image: 'https://i.ytimg.com/vi/GnArHf0i5nE/maxresdefault.jpg',
         spiceLevel: 'Dulce',
@@ -153,7 +153,7 @@ export class HomeComponent {
       },
       {
         name: 'Picadas',
-        description: 'Descripción de la picada.',
+        description: 'Deliciosas tortillas de maíz con frijoles, aguacate y salsa al gusto',
         price: 12,
         image: 'https://i.ytimg.com/vi/lhGN9kJeNsw/maxresdefault.jpg',
         spiceLevel: 'Picante',
@@ -164,7 +164,7 @@ export class HomeComponent {
       },
       {
         name: 'Sopes',
-        description: 'Descripción de los sopes.',
+        description: 'tortillas gruesas de maíz con el relleno de tu elección.',
         price: 14,
         image: 'https://patijinich.com/es/wp-content/uploads/sites/3/2017/12/610-sopes.jpg',
         spiceLevel: 'No picante',
@@ -175,7 +175,7 @@ export class HomeComponent {
       },
       {
         name: 'Molotes',
-        description: 'Descripción de los molotes.',
+        description: 'base de masa de maíz rellena de frijoles, papa o platano.',
         price: 30,
         image: 'https://curul.com.mx/wp-content/uploads/2022/09/FB_IMG_1664032066408.jpg',
         spiceLevel: 'Dulce',
@@ -186,7 +186,7 @@ export class HomeComponent {
       },
       {
         name: 'Chilaquiles',
-        description: 'Descripción de los chilaquiles.',
+        description: 'tortillas fritas bañadas en salsa roja o verde, acompañadas de pollo deshebrado y crema.',
         price: 20,
         image: 'https://www.lamichoacanameatmarket.com/wp-content/uploads/2019/03/Chilaquiles-Rojos.jpg',
         spiceLevel: 'No picante',
@@ -197,7 +197,7 @@ export class HomeComponent {
       },
       {
         name: 'Panuchos',
-        description: 'Descripción de los panuchos.',
+        description: 'tortillas de maíz rellenas de frijoles al estilo Veracruzano.',
         price: 18,
         image: 'https://i.ytimg.com/vi/87h2fWh4ol4/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDVKZF7rbYAfdrD4yz-qlQLG_i_ew',
         spiceLevel: 'No picante',

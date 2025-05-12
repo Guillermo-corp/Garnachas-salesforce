@@ -80,7 +80,9 @@
     text-align: center;
     margin: 0; /* Elimina márgenes adicionales */
   }
-
+  .menu-title-container h1:hover {
+    color: var(--secondary-color); /* Cambia el color al pasar el mouse */ 
+  }
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -145,7 +147,9 @@
     font-size: 1.8rem; /* Ajusta el tamaño de la fuente */
     color: var(--primary-color) /* Cambia el color */
   }
-
+  .example mat-card-title:hover {
+    color: var(--secondary-color) /* Cambia el color */
+  }
   .example-card-actions .removeProduct{
     font-size: 14px;
     display: flex;
@@ -179,4 +183,3 @@
       max-width: 100%;
     }
   }
-  
