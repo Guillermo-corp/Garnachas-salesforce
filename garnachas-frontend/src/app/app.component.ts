@@ -89,6 +89,9 @@ export class AppComponent {
     return !!localStorage.getItem('userToken');
   }
 
+  showSettingsAlert(): void {
+    alert('Próximamente');
+  }
   
 }
 

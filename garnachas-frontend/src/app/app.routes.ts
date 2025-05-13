@@ -6,6 +6,7 @@ import { StripecancelComponent } from './stripecancel/stripecancel.component';
 import { StripesuccessComponent } from './stripesuccess/stripesuccess.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { ContactoComponent } from './contacto/contacto.component';
 
 
 const routeConfig: Routes = [
@@ -50,6 +51,11 @@ const routeConfig: Routes = [
         path : '',
         redirectTo: '/',
         pathMatch: 'full'
+    },
+    {
+        path: 'contacto',
+        component: ContactoComponent,
+        title: 'Contacto'
     }
     
 ];
