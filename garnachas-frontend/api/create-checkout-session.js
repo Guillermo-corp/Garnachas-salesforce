@@ -12,7 +12,7 @@ export default async function handler(req, res) {
             currency: 'mxn', // Cambia a pesos mexicanos
             product_data: {
               name: item.name,
-              description: item.selectedRelleno,
+              description: item.description,
               images: [item.image],
             },
             unit_amount: Math.round(item.price * 100), // Stripe usa centavos
