@@ -63,7 +63,7 @@ export default async function handler(req, res) {
             ${items
               .map(
                 (item) =>
-                  `<li>${item.quantity} × ${item.name} — $${item.price} MXN</li>`
+                  `<li>${item.quantity} × ${item.name} de ${ item.relleno } — $${item.price} MXN</li>`
               )
               .join('')}
           </ul>
