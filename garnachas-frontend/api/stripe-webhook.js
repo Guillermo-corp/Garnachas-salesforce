@@ -41,10 +41,9 @@ export default async function handler(req, res) {
     });
 
     const items = lineItems.data.map((item) => {
-        const relleno = item.price.product.metadata?.relleno || 'No especificado';
         return {
           name: item.description,
-          relleno,
+          relleno: item.description,
           quantity: item.quantity,
           price: (item.amount_total / 100).toFixed(2),
         };});
