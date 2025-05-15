@@ -10,6 +10,11 @@ export const config = {
   },
 };
 
+const parseRelleno = (description) => {
+    const match = description?.match(/Relleno:\s*(.*)/i);
+    return match ? match[1] : 'No especificado';
+  };
+
 const getRawBody = async (req) => {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
@@ -40,11 +45,14 @@ export default async function handler(req, res) {
       expand: ['data.price.product'],
     });
 
-    const items = lineItems.data.map((item) => ({
-      name: item.description,
-      quantity: item.quantity,
-      price: (item.amount_total / 100).toFixed(2),
-    }));
+    const items = lineItems.data.map((item) => {
+        const relleno = parseRelleno(item.description);
+        return {
+          name: item.description,
+          relleno,
+          quantity: item.quantity,
+          price: (item.amount_total / 100).toFixed(2),
+        };});
 
     // 2. Configurar Brevo
     const brevoClient = new Brevo.TransactionalEmailsApi();
