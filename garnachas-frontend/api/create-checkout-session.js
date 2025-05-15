@@ -14,6 +14,9 @@ export default async function handler(req, res) {
               name: item.name,
               description: item.description,
               images: [item.image],
+              metadata: {
+                relleno: item.selectedRelleno || 'No especificado',
+              },
             },
             unit_amount: Math.round(item.price * 100), // Stripe usa centavos
           },

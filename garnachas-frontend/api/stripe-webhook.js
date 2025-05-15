@@ -10,11 +10,6 @@ export const config = {
   },
 };
 
-const parseRelleno = (description) => {
-    const match = description?.match(/Relleno:\s*(.*)/i);
-    return match ? match[1] : 'No especificado';
-  };
-
 const getRawBody = async (req) => {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
@@ -46,7 +41,7 @@ export default async function handler(req, res) {
     });
 
     const items = lineItems.data.map((item) => {
-        const relleno = parseRelleno(item.description);
+        const relleno = item.price.product.metadata?.relleno || 'No especificado';
         return {
           name: item.description,
           relleno,
