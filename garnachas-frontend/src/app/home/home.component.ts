@@ -261,6 +261,15 @@ export class HomeComponent {
     window.alert('Producto eliminado del carrito: ' + item.name);
     // Add logic to handle removing the item from the cart
   }
+
+  onSearchInput(event: Event): void {
+    const query = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredLocationList = this.filteredLocationList.filter(item =>
+      item.name.toLowerCase().includes(query)
+    );
+    this.currentPage = 0; // Reinicia a la primera página
+    this.updatePaginatedList(); // Actualiza la lista paginada
+  }
 }
 
 

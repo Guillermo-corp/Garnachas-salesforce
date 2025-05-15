@@ -1,6 +1,21 @@
 {
-    "rewrites": [
-      { "source": "/(.*)", "destination": "/index.html" }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    { "src": "dist/garnachas-frontend/browser/**/*", "use": "@vercel/static" },
+    { "src": "api/**/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/garnachas-frontend/browser/index.html"
+    }
+  ]
+}
+
   
+   
+   

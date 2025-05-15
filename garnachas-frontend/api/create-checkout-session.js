@@ -20,8 +20,8 @@ export default async function handler(req, res) {
           quantity: item.quantity,
         })),
         mode: 'payment',
-        success_url: 'https://garnachas-mx.vercel.app/success', // URL de éxito
-        cancel_url: 'https://garnachas-mx.vercel.app/cancel', // URL de cancelación
+        success_url: 'https://garnachas-mx.vercel.app/stripesuccess', // URL de éxito
+        cancel_url: 'https://garnachas-mx.vercel.app/stripecancel', // URL de cancelación
         transfer_data: {
           destination: connectedAccountId, // Cuenta conectada de Stripe
         },

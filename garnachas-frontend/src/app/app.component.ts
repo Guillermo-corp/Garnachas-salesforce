@@ -38,11 +38,25 @@ export class AppComponent {
   title = 'homes';
   showSearch = false;  
   cartItemCount: number = 0;
+  searchQuery: string = '';
+  filteredItems: any[] = [];
   @ViewChild('searchBox') searchBox!: ElementRef;
   private cartSubscription!: Subscription;
   
   toggleSearch() {
     this.showSearch = !this.showSearch;
+    if (!this.showSearch) {
+      this.searchQuery = '';
+      this.filteredItems = [];
+    }
+  }
+
+  onSearchInput(event: Event): void {
+    const query = (event.target as HTMLInputElement).value.toLowerCase();
+    this.searchQuery = query;
+    this.filteredItems = this.cartService.getCartItems().filter(item =>
+      item.name.toLowerCase().includes(query)
+    );
   }
 
   onContainerClick(event: Event) {
@@ -54,6 +68,8 @@ export class AppComponent {
   handleClickOutside(event: Event) {
     if (this.showSearch && this.searchBox && !this.searchBox.nativeElement.contains(event.target)) {
       this.showSearch = false;
+      this.searchQuery = '';
+      this.filteredItems = [];
     }
   }
   constructor(private cartService: CartService, private router: Router) {

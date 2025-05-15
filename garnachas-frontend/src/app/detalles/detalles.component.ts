@@ -145,7 +145,9 @@ export class DetallesComponent {
   }
 
   payWithStripe(): void {
-    const backendUrl = 'http://localhost:3000/create-checkout-session'; // Replace with your backend URL
+    /* const backendUrl = 'http://localhost:3000/create-checkout-session'; // Replace with your backend URL */
+    const backendUrl = 'https://tu-dominio.vercel.app/api/create-checkout-session';
+
 
     const stripeCartItems = this.cartItems.map((item) => ({
       name: item.name,

@@ -7,7 +7,12 @@
         <!-- Ícono de búsqueda -->
         <div class="search-container" (click)="onContainerClick($event)" #searchBox>
           <mat-icon (click)="toggleSearch()">search</mat-icon>
-          <input *ngIf="showSearch" type="text" placeholder="Buscar..." />
+          <input *ngIf="showSearch" type="text" placeholder="Buscar..." (input)="onSearchInput($event)" [value]="searchQuery" />
+          <ul *ngIf="filteredItems.length > 0" class="search-results">
+            <li *ngFor="let item of filteredItems" (click)="navigateToDetails()">
+              {{ item.name }}
+            </li>
+          </ul>
         </div>
         <!-- Ícono del carrito de compras -->
         
