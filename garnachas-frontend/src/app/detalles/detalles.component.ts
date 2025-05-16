@@ -108,6 +108,8 @@ export class DetallesComponent {
                     Precio__c: item.price,
                     Relleno__c: item.selectedRelleno || 'Sin especificar',
                     Imagen_url__c: item.image,
+                    Cantidad__c: item.quantity,
+                    Compra__c: compraResponse.id, // Asociar el platillo a la compra
                   };
 
                   this.salesforceService.createPlatillo(platilloData).subscribe(

@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { environment } from '../../environments/environments';
+/* import { environment } from '../../environments/environments'; */
 
 @Injectable({
   providedIn: 'root',
 })
 export class SalesforceService {
-  private accessToken = environment.salesforce.accessToken; // Access Token inicial
-  private baseUrl = environment.salesforce.baseUrl;
-
+  /* private accessToken = environment.salesforce.accessToken; // Access Token inicial
+  private baseUrl = environment.salesf orce.baseUrl;*/
+  private accessToken = process.env['SALESFORCE_ACCESS_TOKEN'] || ''; 
+  private baseUrl = process.env['SALESFORCE_BASE_URL'] || ''; 
   constructor(private http: HttpClient) {}
 
   // Método para renovar el Access Token usando el Refresh Token
