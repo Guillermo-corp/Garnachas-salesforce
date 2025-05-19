@@ -57,6 +57,13 @@ export class DetallesComponent {
     this.getTotal(); 
   }
 
+  getNextCompraId(): number {
+    const lastId = Number(localStorage.getItem('lastCompraId')) || 0; // Obtiene el último ID o 0 si no existe
+    const nextId = lastId + 1; // Incrementa el ID
+    localStorage.setItem('lastCompraId', nextId.toString()); // Guarda el nuevo ID en localStorage
+    return nextId;
+  }
+  
   getTotal(): void {
     console.log('Cart Items:', this.cartItems);
     this.total =  this.cartItems.reduce((total, item) => {
@@ -92,7 +99,7 @@ export class DetallesComponent {
 
             const compraData = {
               cliente__c: clienteResponse.id, // ID del cliente creado
-              Name: `Compra - ${new Date().toLocaleDateString()}`,
+              Name: `Compra - ${this.getNextCompraId()}`,
               Fecha_Compra__c: new Date().toISOString(),
               Metodo_pago__c: 'Efectivo', // Cambiar según sea necesario
               Total__c: this.total,

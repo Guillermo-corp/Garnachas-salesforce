@@ -20,29 +20,34 @@
                 <div class="slds-modal__content slds-p-around_medium">
                     <lightning-input
                         label="Nombre"
-                        value={clienteSeleccionado.FirstName}
+                        value={clienteSeleccionado.Name}
                         onchange={handleInputChange}
-                        data-field="FirstName">
+                        data-field="Name">
                     </lightning-input>
+
                     <lightning-input
                         label="Apellido"
-                        value={clienteSeleccionado.LastName}
+                        value={clienteSeleccionado.Apellido__c}
                         onchange={handleInputChange}
-                        data-field="LastName">
+                        data-field="Apellido__c">
                     </lightning-input>
+
                     <lightning-input
                         label="Correo Electrónico"
-                        value={clienteSeleccionado.Email}
+                        value={clienteSeleccionado.Email__c}
                         onchange={handleInputChange}
-                        data-field="Email">
+                        data-field="Email__c">
                     </lightning-input>
+
+                    <!-- Lookup de Dirección (opcional: puede ir aquí un combobox también) -->
                     <lightning-input
-                        label="Teléfono"
-                        value={clienteSeleccionado.Phone}
+                        label="ID de Dirección (lookup)"
+                        value={clienteSeleccionado.Direccion__c}
                         onchange={handleInputChange}
-                        data-field="Phone">
+                        data-field="Direccion__c">
                     </lightning-input>
                 </div>
+
                 <footer class="slds-modal__footer">
                     <lightning-button label="Cancelar" onclick={cerrarModal}></lightning-button>
                     <lightning-button label="Guardar" variant="brand" onclick={guardarCliente}></lightning-button>

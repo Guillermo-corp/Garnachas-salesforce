@@ -48,11 +48,11 @@ export default class ClienteDatatable extends LightningElement {
    
     @track clientes = [];
     @track columns = [
-        { label: 'Nombre', fieldName: 'FirstName', type: 'text' },
-        { label: 'Apellido', fieldName: 'LastName', type: 'text' },
-        { label: 'Correo Electrónico', fieldName: 'Email', type: 'email' },
-        { label: 'Teléfono', fieldName: 'Phone', type: 'phone' },
-    {
+        { label: 'Nombre', fieldName: 'Name', type: 'text' },
+        { label: 'Apellido', fieldName: 'Apellido__c', type: 'text' },
+        { label: 'Correo Electrónico', fieldName: 'Email__c', type: 'email' },
+        { label: 'Dirección', fieldName: 'Direccion__r.Name', type: 'text' },
+        {
         type: 'button',
         typeAttributes: {
             label: 'Editar',
