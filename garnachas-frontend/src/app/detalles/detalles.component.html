@@ -81,7 +81,7 @@
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
           <button mat-button color="primary" (click)="placeOrder()" [disabled]="cartItems.length === 0">Finalizar Pedido</button>
-          <button mat-button color="accent" (click)="payWithStripe()" [disabled]="cartItems.length === 0">Pagar con tarjeta</button>
+          <!-- <button mat-button color="accent" (click)="payWithStripe()" [disabled]="cartItems.length === 0">Pagar con tarjeta</button> -->
         </div>
       </mat-step>
     </mat-horizontal-stepper>

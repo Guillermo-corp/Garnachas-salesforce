@@ -11,6 +11,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../services/cart.service'; 
 import { SalesforceService } from '../services/salesforce.service';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogPaymentComponent } from '../dialog-payment/dialog-payment.component';
+
 declare const google: any;
 
 @Component({
@@ -43,7 +46,7 @@ export class DetallesComponent implements AfterViewInit{
   duration = '2000';
   total: number = 0;
 
-  constructor(private fb: FormBuilder, private cartService: CartService, private salesforceService: SalesforceService, private http: HttpClient,private ngZone: NgZone) { 
+  constructor(private fb: FormBuilder, private cartService: CartService, private salesforceService: SalesforceService, private http: HttpClient,private ngZone: NgZone, private dialog: MatDialog) { 
     this.personalInfoForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -62,9 +65,24 @@ export class DetallesComponent implements AfterViewInit{
 
   ngAfterViewInit(): void {
     this.initializeMap();
+    this.openPaymentDialog();
     /* this.initializeAutocomplete();  */
   }
 
+  openPaymentDialog(): void {
+    const dialogRef = this.dialog.open(DialogPaymentComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'cash') {
+        console.log('Pago con efectivo seleccionado');
+      } else if (result === 'card') {
+        this.payWithStripe();
+      }
+    });
+  }
+  
   //Autocomplete para el campo de dirección sin el mapa.
   /* initializeAutocomplete(): void { 
     
@@ -158,6 +176,7 @@ export class DetallesComponent implements AfterViewInit{
     });
   }
 
+  
   getAddressFromCoordinates(lat: number, lng: number): void {
     const geocoder = new google.maps.Geocoder();
     const latLng = { lat, lng };
@@ -292,9 +311,9 @@ export class DetallesComponent implements AfterViewInit{
   }
 
   payWithStripe(): void {
-    /* const backendUrl = 'http://localhost:3000/create-checkout-session';  */
+    /* const backendUrl = 'http://localhost:3000/create-checkout-session';   */
     const backendUrl = 'https://garnachas-mx.vercel.app/api/create-checkout-session';
-
+ 
 
     const stripeCartItems = this.cartItems.map((item) => ({
       name: item.name,
