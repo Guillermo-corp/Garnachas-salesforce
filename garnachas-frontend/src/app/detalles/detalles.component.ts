@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../services/cart.service'; 
 import { SalesforceService } from '../services/salesforce.service';
 import { HttpClient } from '@angular/common/http';
+declare const google: any;
 
 @Component({
   selector: 'app-detalles',
@@ -25,22 +26,24 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './detalles.component.html',
   styleUrl: './detalles.component.css'
 })
-export class DetallesComponent {
+export class DetallesComponent implements AfterViewInit{
 
   personalInfoForm: FormGroup;
   addressForm: FormGroup;
+  map: any;
+  marker: any;
   cartItems: { 
     name: string; 
     quantity: number; 
     price: number; 
     image: string; 
     selectedRelleno?: string; 
-    relleno?: string; // Add the 'relleno' property explicitly
+    relleno?: string;
   }[] = []; 
   duration = '2000';
   total: number = 0;
 
-  constructor(private fb: FormBuilder, private cartService: CartService, private salesforceService: SalesforceService, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private cartService: CartService, private salesforceService: SalesforceService, private http: HttpClient,private ngZone: NgZone) { 
     this.personalInfoForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -55,6 +58,141 @@ export class DetallesComponent {
 
     this.cartItems = this.cartService.getCartItems(); 
     this.getTotal(); 
+  }
+
+  ngAfterViewInit(): void {
+    this.initializeMap();
+    /* this.initializeAutocomplete();  */
+  }
+
+  //Autocomplete para el campo de dirección sin el mapa.
+  /* initializeAutocomplete(): void { 
+    
+    const autocompleteInput = document.getElementById('autocomplete') as HTMLInputElement;
+
+    if (!autocompleteInput) {
+      console.error('El elemento con ID "autocomplete" no se encontró en el DOM.');
+      return;
+    }
+
+    const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, {
+      types: ['address'], // Solo direcciones
+      componentRestrictions: { country: 'mx' }, // Restringir a México (opcional)
+    });
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();
+
+      if (place.address_components) {
+        const addressComponents = place.address_components; 
+
+        // Extraer los datos de la dirección
+        const street = this.getAddressComponent(addressComponents, 'route');
+        const city = this.getAddressComponent(addressComponents, 'locality');
+        const zipCode = this.getAddressComponent(addressComponents, 'postal_code');
+
+        // Actualizar el formulario con los datos extraídos
+        this.ngZone.run(() => {
+          this.addressForm.patchValue({
+            street: street || '',
+            city: city || '',
+            zipCode: zipCode || '',
+          });
+        });
+        
+      }
+    });
+  } */
+
+  initializeMap(): void {
+    const mapElement = document.getElementById('map') as HTMLElement;
+    const searchBoxInput = document.getElementById('map-search-box') as HTMLInputElement;
+  
+    this.map = new google.maps.Map(mapElement, {
+      center: { lat: 19.18095, lng: -96.1429 }, // Coordenadas iniciales (Ciudad de México)
+      zoom: 14,
+    });
+
+    this.marker = new google.maps.Marker({
+      map: this.map,
+      draggable: true,
+    });
+
+    // Inicializar el SearchBox
+  const searchBox = new google.maps.places.SearchBox(searchBoxInput);
+
+  // Vincular el SearchBox al mapa
+  this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchBoxInput);
+
+  // Evento para manejar la selección de una ubicación en el SearchBox
+  searchBox.addListener('places_changed', () => {
+    const places = searchBox.getPlaces();
+
+    if (places.length === 0) {
+      return;
+    }
+
+    // Centrar el mapa en la primera ubicación seleccionada
+    const place = places[0];
+    if (place.geometry && place.geometry.location) {
+      this.map.setCenter(place.geometry.location);
+      this.map.setZoom(15); // Ajustar el zoom
+      this.marker.setPosition(place.geometry.location);
+
+      // Obtener la dirección de la ubicación seleccionada
+      this.getAddressFromCoordinates(place.geometry.location.lat(), place.geometry.location.lng());
+    }
+  });
+  
+    // Evento para manejar clics en el mapa
+    this.map.addListener('click', (event: any) => {
+      const clickedLocation = event.latLng;
+      this.marker.setPosition(clickedLocation);
+      this.getAddressFromCoordinates(clickedLocation.lat(), clickedLocation.lng());
+    });
+
+    // Evento para manejar el movimiento del marcador
+    this.marker.addListener('dragend', (event: any) => {
+      const draggedLocation = event.latLng;
+      this.getAddressFromCoordinates(draggedLocation.lat(), draggedLocation.lng());
+    });
+  }
+
+  getAddressFromCoordinates(lat: number, lng: number): void {
+    const geocoder = new google.maps.Geocoder();
+    const latLng = { lat, lng };
+
+    geocoder.geocode({ location: latLng }, (results: any, status: string) => {
+      if (status === 'OK' && results.length > 0) {
+        const place = results[0];
+        const addressComponents = place.address_components;
+
+        // Extraer los datos de la dirección
+        const streetNumber = this.getAddressComponent(addressComponents, 'street_number');
+        const street = this.getAddressComponent(addressComponents, 'route');
+        const city = this.getAddressComponent(addressComponents, 'locality');
+        const zipCode = this.getAddressComponent(addressComponents, 'postal_code');
+
+        const fullStreet = `${street || ''} ${streetNumber || ''}`.trim();
+
+        // Actualizar el formulario con los datos extraídos
+        this.ngZone.run(() => {
+          this.addressForm.patchValue({
+            street: fullStreet || '',
+            city: city || '',
+            zipCode: zipCode || '',
+          });
+        });
+
+        console.log('Dirección obtenida del mapa:', place.formatted_address);
+      } else {
+        console.error('No se pudo obtener la dirección a partir de las coordenadas:', status);
+      }
+    });
+  }
+  getAddressComponent(components: any[], type: string): string | undefined {
+    const component = components.find((c) => c.types.includes(type));
+    return component ? component.long_name : undefined;
   }
 
   getNextCompraId(): number {
@@ -90,7 +228,7 @@ export class DetallesComponent {
           Calle__c: this.addressForm.value.street,
           Ciudad__c: this.addressForm.value.city,
           CP__c: this.addressForm.value.zipCode,
-          Cliente__c: clienteResponse.id, // Asociar la dirección al cliente
+          Cliente__c: clienteResponse.id, 
         };
 
         this.salesforceService.createDireccion(direccionData).subscribe(
@@ -98,10 +236,10 @@ export class DetallesComponent {
             console.log('Direccion creada:', direccionResponse);
 
             const compraData = {
-              cliente__c: clienteResponse.id, // ID del cliente creado
+              cliente__c: clienteResponse.id, 
               Name: `Compra - ${this.getNextCompraId()}`,
               Fecha_Compra__c: new Date().toISOString(),
-              Metodo_pago__c: 'Efectivo', // Cambiar según sea necesario
+              Metodo_pago__c: 'Efectivo', 
               Total__c: this.total,
             };
 
@@ -116,7 +254,7 @@ export class DetallesComponent {
                     Relleno__c: item.selectedRelleno || 'Sin especificar',
                     Imagen_url__c: item.image,
                     Cantidad__c: item.quantity,
-                    Compra__c: compraResponse.id, // Asociar el platillo a la compra
+                    Compra__c: compraResponse.id, 
                   };
 
                   this.salesforceService.createPlatillo(platilloData).subscribe(
@@ -154,13 +292,13 @@ export class DetallesComponent {
   }
 
   payWithStripe(): void {
-    /* const backendUrl = 'http://localhost:3000/create-checkout-session'; // Replace with your backend URL */
+    /* const backendUrl = 'http://localhost:3000/create-checkout-session';  */
     const backendUrl = 'https://garnachas-mx.vercel.app/api/create-checkout-session';
 
 
     const stripeCartItems = this.cartItems.map((item) => ({
       name: item.name,
-      description: `Relleno: ${item.selectedRelleno || 'No especificado'}`, // Agregar el relleno a la descripción
+      description: `Relleno: ${item.selectedRelleno || 'No especificado'}`, 
       price: item.price,
       quantity: item.quantity,
       image: item.image,
@@ -181,44 +319,4 @@ export class DetallesComponent {
       },
     });
   }
-
- /*  connectStripeAccount() {
-    this.http.post<{ url: string }>('/connect-account', {}).subscribe({
-      next: (response) => {
-        console.log('Respuesta de connect-account:', response); // <-- Agrega este log
-        window.location.href = response.url; // Redirigir al enlace de conexión de Stripe
-      },
-      error: (err) => {
-        console.error('Error al conectar cuenta de Stripe:', err); // <-- Log del error recibido
-      },
-    });
-  }
-  createCheckoutSession(): void {
-    const cartItems = this.cartItems.map((item) => ({
-      name: item.name,
-      description: item.name, // Puedes usar una descripción más detallada si está disponible
-      price: item.price,
-      quantity: item.quantity,
-      image: item.image, // Asegúrate de que el objeto tenga la propiedad `image`
-    }));
-
-    console.log('Datos enviados a createCheckoutSession:', cartItems); // <-- Agrega este log
-  
-    
-    this.salesforceService.createCheckoutSession(cartItems).subscribe(
-      (data) => {
-        if (data.url) {
-          console.log('URL de Stripe:', data.url); // Verifica que la URL se imprima correctamente
-          window.location.href = data.url; // Redirige a Stripe Checkout
-        } else {
-          console.error('Error: No se recibió una URL de Stripe.', data);
-          window.alert('Hubo un problema al generar la sesión de pago. Intenta nuevamente.');
-        }
-      },
-      (error) => {
-        console.error('Error al crear la sesión de Stripe:', error);
-        window.alert('Hubo un problema al conectar con el servidor. Intenta nuevamente.');
-      }
-    );
-  } */
 }

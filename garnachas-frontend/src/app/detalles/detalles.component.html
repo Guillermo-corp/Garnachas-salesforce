@@ -30,8 +30,16 @@
       <mat-step [stepControl]="addressForm">
         <form [formGroup]="addressForm">
           <ng-template matStepLabel>Dirección</ng-template>
+          <!-- <mat-form-field appearance="fill">
+            <mat-label>Buscar Dirección</mat-label>
+            <input matInput id="autocomplete" type="text" placeholder="Ingresa tu dirección">
+          </mat-form-field> -->
+          <div id="map-container">
+            <input id="map-search-box" type="text" placeholder="Buscar en el mapa"/>
+            <div id="map"></div>
+          </div>
           <mat-form-field appearance="fill">
-            <mat-label>Calle</mat-label>
+            <mat-label>Calle y número</mat-label>
             <input matInput formControlName="street" placeholder="Ingresa tu calle">
           </mat-form-field>
           <mat-form-field appearance="fill">
@@ -54,15 +62,19 @@
         <ng-template matStepLabel>Resumen del Pedido</ng-template>
         <div class="order-summary">
           <h3>Resumen del Pedido</h3>
-          <mat-card *ngFor="let item of cartItems"> <!-- Loop through all cart items -->
-            <mat-card-title>{{ item.name }}</mat-card-title>
-            <img mat-card-image [src]="item.image" [alt]="item.name + ' Image'"> <!-- Display item image -->
-            <mat-card-content>
+          <div class="order-item" *ngFor="let item of cartItems">
+            <img [src]="item.image" [alt]="item.name + ' Image'" />
+            <div class="order-item-details">
+              <h4>{{ item.name }}</h4>
               <p>Cantidad: {{ item.quantity }}</p>
               <p>Precio: ${{ item.price }}</p>
-              <p *ngIf="item.relleno">Relleno: {{ item.relleno }}</p> <!-- Mostrar el relleno correctamente -->
-            </mat-card-content>
-          </mat-card>
+              <p *ngIf="item.relleno">Relleno: {{ item.relleno }}</p>
+            </div>
+            <div class="order-item-price">
+              <p class="subtotal-label">Subtotal</p>
+              <p>${{ item.price * item.quantity }}</p>
+            </div>
+          </div>
           <h4 *ngIf="cartItems.length > 0">Total: ${{ total }}</h4>
           <p *ngIf="cartItems.length === 0">No hay productos en el carrito.</p>
         </div>
