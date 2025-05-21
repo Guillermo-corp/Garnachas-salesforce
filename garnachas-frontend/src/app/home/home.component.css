@@ -162,6 +162,7 @@
     display: flex;
     justify-content: center;
     gap: 30px;
+    flex-wrap: wrap;
     /* flex-wrap: wrap;
     width: 100%;
     margin-top: 10px; */
@@ -179,7 +180,8 @@
   @media (max-width: 600px) {
     .relleno-autocomplete,
     .sauce-autocomplete {
-      flex: 1 1 100%;
-      max-width: 100%;
+      flex: 1 1 45%;
+      max-width: 50%;
+      height: auto;
     }
   }
