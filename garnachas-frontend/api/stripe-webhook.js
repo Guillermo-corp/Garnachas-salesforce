@@ -69,6 +69,9 @@ export default async function handler(req, res) {
               .join('')}
           </ul>
           <p>Total: $${(session.amount_total / 100).toFixed(2)} MXN</p>
+          <p>Tu pedido será procesado y enviado a la dirección que proporcionaste.</p>
+          <p>Tiempo estimado de entrega: 30 - 45 minutos.</p>
+          <p>Si tienes alguna pregunta, no dudes en contactarnos.</p>
           <p>Nos vemos pronto. ¡Buen provecho!</p>
         `,
       });
