@@ -69,19 +69,7 @@ export class DetallesComponent implements AfterViewInit{
     /* this.initializeAutocomplete();  */
   }
 
-  openPaymentDialog(): void {
-    const dialogRef = this.dialog.open(DialogPaymentComponent, {
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'cash') {
-        console.log('Pago con efectivo seleccionado');
-      } else if (result === 'card') {
-        this.payWithStripe();
-      }
-    });
-  }
+ 
   
   //Autocomplete para el campo de dirección sin el mapa.
   /* initializeAutocomplete(): void { 
@@ -214,6 +202,20 @@ export class DetallesComponent implements AfterViewInit{
     return component ? component.long_name : undefined;
   }
 
+  openPaymentDialog(): void {
+    const dialogRef = this.dialog.open(DialogPaymentComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'cash') {
+        console.log('Pago con efectivo seleccionado');
+      } else if (result === 'card') {
+        this.payWithStripe();
+      }
+    });
+  }
+  
   getNextCompraId(): number {
     const lastId = Number(localStorage.getItem('lastCompraId')) || 0; // Obtiene el último ID o 0 si no existe
     const nextId = lastId + 1; // Incrementa el ID
