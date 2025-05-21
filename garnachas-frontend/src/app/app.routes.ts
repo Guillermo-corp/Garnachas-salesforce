@@ -14,7 +14,7 @@ const routeConfig: Routes = [
      {
         path: '',
         component: HomeComponent,
-        title: 'Home page'
+        title: 'Garnachas-MX'
     },
     {
         path: 'aboutus',
