@@ -131,6 +131,10 @@
     border-radius: 8px;
   }
 
+  .custom-image.not-best-seller {
+    margin-top: 30px;
+  }
+
   .example-card-actions mat-icon{
     height: 20px;
   }

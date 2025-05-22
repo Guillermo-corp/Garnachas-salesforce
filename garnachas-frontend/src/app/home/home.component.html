@@ -24,7 +24,7 @@
           Producto más vendido
         </mat-card-subtitle>
       </mat-card-header>
-      <img mat-card-image class="custom-image" [src]="item.image" [alt]="item.name + ' Image'">
+      <img mat-card-image class="custom-image" [src]="item.image" [alt]="item.name + ' Image'" [ngClass]="{ 'not-best-seller': !item.isBestSeller }">
       <mat-card-content>
         <p><mat-icon color="primary">info</mat-icon> {{ item.description }}</p>
         <p><mat-icon color="warn">attach_money</mat-icon> Precio: ${{ item.price }}</p>
@@ -44,7 +44,7 @@
               #rellenoAuto="matAutocomplete"
               (optionSelected)="onRellenoSelected($event, item)"
             >
-              <mat-option *ngFor="let relleno of rellenos[item.name]" [value]="relleno">
+              <mat-option *ngFor="let relleno of rellenos[item.name]" [value]="relleno" >
                 {{ relleno }}
               </mat-option>
             </mat-autocomplete>
