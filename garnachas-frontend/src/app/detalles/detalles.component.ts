@@ -258,7 +258,7 @@ export class DetallesComponent implements AfterViewInit{
 
             const compraData = {
               cliente__c: clienteResponse.id, 
-              Name: `Compra - ${this.getNextCompraId()}`,
+              Name: `${this.getNextCompraId()} - Compra`,
               Fecha_Compra__c: new Date().toISOString(),
               Metodo_pago__c: 'Efectivo', 
               Total__c: this.total,
