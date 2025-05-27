@@ -387,7 +387,7 @@ calculateSubtotal(): void {
     next: (response) => {
       console.log('Distance Matrix API Response:', response); // Verifica la respuesta del backend
       if (response.distance && response.duration) {
-        const distanceInMeters = response.rows[0].elements[0].distance.value;
+        const distanceInMeters = response.distance.value; // Obtén la distancia en metros
         const distanceInKm = distanceInMeters / 1000;
         this.shippingCost = Math.round(distanceInKm * 20); 
         this.total = this.subtotal + this.shippingCost;
