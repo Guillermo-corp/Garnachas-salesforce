@@ -296,6 +296,7 @@ export class DetallesComponent implements AfterViewInit{
                 this.cartService.clearCart();
                 this.cartItems = [];
                 this.total = 0;
+                this.shippingCost = 0; // Reiniciar el costo de envío
               },
               (error) => {
                 console.error('Error al crear Compra__c:', error);
