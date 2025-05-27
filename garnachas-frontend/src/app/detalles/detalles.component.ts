@@ -31,6 +31,8 @@ declare const google: any;
 })
 export class DetallesComponent implements AfterViewInit{
 
+  
+  
   personalInfoForm: FormGroup;
   addressForm: FormGroup;
   map: any;
@@ -42,6 +44,8 @@ export class DetallesComponent implements AfterViewInit{
     image: string; 
     selectedRelleno?: string; 
     relleno?: string;
+
+    
   }[] = []; 
   duration = '2000';
   total: number = 0;
@@ -325,6 +329,14 @@ export class DetallesComponent implements AfterViewInit{
       image: item.image,
     }));
 
+    stripeCartItems.push({
+      name: 'Costo de envío',
+      description: 'Costo calculado por distancia',
+      price: this.shippingCost,
+      quantity: 1,
+      image: 'https://media.istockphoto.com/id/1186665850/es/vector/cami%C3%B3n-de-entrega-de-env%C3%ADo-r%C3%A1pido-dise%C3%B1o-de-icono-de-l%C3%ADnea-ilustraci%C3%B3n-vectorial-para.jpg?s=612x612&w=0&k=20&c=4IODuEWsnMLEgriQF7rOu3mN3CXtXVmQPVgJngit0jE=',
+    });
+
     this.http.post<{ url: string }>(backendUrl, { cartItems: stripeCartItems }).subscribe({
       next: (response) => {
         if (response.url) {
@@ -340,4 +352,58 @@ export class DetallesComponent implements AfterViewInit{
       },
     });
   }
+
+  //Calcular el costo del envio basado en la distancia
+   // Coordenadas de la tienda (ejemplo: Ciudad de México)
+shippingCost: number = 0; // Costo de envío inicializado a 0  
+subtotal: number = 0; // Inicializa el subtotal en 0
+
+calculateSubtotal(): void {
+  this.subtotal = this.cartItems.reduce((total, item) => {
+    const quantity = Number.isFinite(item.quantity) ? item.quantity : 0;
+    const price = Number.isFinite(item.price) ? item.price : 0;
+    return total + quantity * price;
+  }, 0);
+  console.log('Subtotal calculado:', this.subtotal);
+}
+  // Método para calcular el costo de envío
+  calculateShippingCost(): void {
+    this.calculateSubtotal(); 
+
+  const destination = this.addressForm.value; 
+  const destinationAddress = `${destination.street}, ${destination.city}, ${destination.zipCode}`;
+
+  /* const origin = '19.18095,-96.1429'; */
+  const origin = 'Francisco Canal 1597, Veracruz, 91700';
+
+  console.log('Destination Address:', destinationAddress); 
+  console.log('Origin:', origin); 
+
+
+/*   const backendUrl = 'http://localhost:3000/calculate-distance'; // URL del backend
+ */
+  const backendUrl = 'https://garnachas-mx.vercel.app/api/costo-envio'; // URL del backend en producción
+  this.http.post<any>(backendUrl, { origin, destination: destinationAddress }).subscribe({
+    next: (response) => {
+      console.log('Distance Matrix API Response:', response); // Verifica la respuesta del backend
+      if (response.rows[0].elements[0].status === 'OK') {
+        const distanceInMeters = response.rows[0].elements[0].distance.value;
+        const distanceInKm = distanceInMeters / 1000;
+        this.shippingCost = Math.round(distanceInKm * 20); 
+        this.total = this.subtotal + this.shippingCost;
+
+        console.log('Distancia:', distanceInKm.toFixed(2), 'km');
+        console.log('Costo de envío:', this.shippingCost, 'MXN');
+        console.log('Total con envío:', this.total, 'MXN');
+        
+      } else {
+        console.error('Error al calcular la distancia:', response.rows[0].elements[0].status);
+      }
+    },
+    error: (err) => {
+      console.error('Error al conectar con el backend:', err);
+    },
+  });
+}
+
 }

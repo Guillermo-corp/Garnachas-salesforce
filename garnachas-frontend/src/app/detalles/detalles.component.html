@@ -52,7 +52,7 @@
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Anterior</button>
-            <button mat-button matStepperNext [disabled]="!addressForm.valid">Siguiente</button>
+            <button mat-button matStepperNext [disabled]="!addressForm.valid"(click)="calculateShippingCost()">Siguiente</button>
           </div>
         </form>
       </mat-step>
@@ -75,7 +75,10 @@
               <p>${{ item.price * item.quantity }}</p>
             </div>
           </div>
-          <h4 *ngIf="cartItems.length > 0">Total: ${{ total }}</h4>
+          <div class="shipping-cost">
+            <h4>Costo de envío: {{ shippingCost | currency }}</h4>
+          </div>
+          <h4 *ngIf="cartItems.length > 0">Total: {{ total | currency }}</h4>
           <p *ngIf="cartItems.length === 0">No hay productos en el carrito.</p>
         </div>
         <div>
