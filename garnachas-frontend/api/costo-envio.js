@@ -1,4 +1,4 @@
-import axios from 'axios';
+import https from 'https';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -6,47 +6,56 @@ export default async function handler(req, res) {
   }
 
   const { origin, destination } = req.body;
-  const apiKey = 'AIzaSyB1L5IGTTnITI4Sos95IqBdgOPhNImHTYE'; 
-  
+  const apiKey = 'AIzaSyB1L5IGTTnITI4Sos95IqBdgOPhNImHTYE'; // Reemplaza con tu clave válida
+
   if (!origin || !destination) {
     return res.status(400).json({ error: 'Origin y Destination son requeridos' });
   }
 
   try {
-    // Llamada a la API de Google Distance Matrix
-    const response = await axios.get('https://maps.googleapis.com/maps/api/distancematrix/json', {
-      params: {
-        origins: origin,
-        destinations: destination,
-        key: apiKey,
-      },
-    });
+    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
 
-    if (response.data.status === 'REQUEST_DENIED') {
-      return res.status(400).json({ error: response.data.error_message });
-    }
+    https.get(url, (response) => {
+      let data = '';
 
-    const distanceData = response.data.rows[0].elements[0];
-    if (distanceData.status !== 'OK') {
-      return res.status(400).json({ error: 'No se pudo calcular la distancia' });
-    }
+      // Recibe los datos en fragmentos
+      response.on('data', (chunk) => {
+        data += chunk;
+      });
 
-    // Extraer distancia y duración
-    const distanceInMeters = distanceData.distance.value;
-    const durationInSeconds = distanceData.duration.value;
+      // Procesa la respuesta completa
+      response.on('end', () => {
+        const result = JSON.parse(data);
 
-    res.status(200).json({
-      distance: {
-        text: distanceData.distance.text,
-        value: distanceInMeters,
-      },
-      duration: {
-        text: distanceData.duration.text,
-        value: durationInSeconds,
-      },
+        if (result.status === 'REQUEST_DENIED') {
+          return res.status(400).json({ error: result.error_message });
+        }
+
+        const distanceData = result.rows[0].elements[0];
+        if (distanceData.status !== 'OK') {
+          return res.status(400).json({ error: 'No se pudo calcular la distancia' });
+        }
+
+        const distanceInMeters = distanceData.distance.value;
+        const durationInSeconds = distanceData.duration.value;
+
+        res.status(200).json({
+          distance: {
+            text: distanceData.distance.text,
+            value: distanceInMeters,
+          },
+          duration: {
+            text: distanceData.duration.text,
+            value: durationInSeconds,
+          },
+        });
+      });
+    }).on('error', (error) => {
+      console.error('Error al conectar con la API de Google:', error.message);
+      res.status(500).json({ error: 'Error al calcular la distancia' });
     });
   } catch (error) {
-    console.error('Error al conectar con la API de Google:', error.message);
-    res.status(500).json({ error: 'Error al calcular la distancia' });
+    console.error('Error interno:', error.message);
+    res.status(500).json({ error: 'Error interno del servidor' });
   }
 }
