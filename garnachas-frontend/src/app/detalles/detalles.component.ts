@@ -389,7 +389,7 @@ calculateSubtotal(): void {
       if (response.distance && response.duration) {
         const distanceInMeters = response.distance.value; // Obtén la distancia en metros
         const distanceInKm = distanceInMeters / 1000;
-        this.shippingCost = Math.round(distanceInKm * 20); 
+        this.shippingCost = Math.round(distanceInKm * 2); 
         this.total = this.subtotal + this.shippingCost;
 
         console.log('Distancia:', distanceInKm.toFixed(2), 'km');
