@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   }
 
   const { origin, destination } = req.body;
-  const apiKey = process.env.GOOGLE_API_KEY; // Asegúrate de configurar esta variable en Vercel
+  const apiKey = 'AIzaSyB1L5IGTTnITI4Sos95IqBdgOPhNImHTYE'; 
   
   if (!origin || !destination) {
     return res.status(400).json({ error: 'Origin y Destination son requeridos' });
