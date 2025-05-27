@@ -394,7 +394,7 @@ calculateSubtotal(): void {
 
         console.log('Distancia:', distanceInKm.toFixed(2), 'km');
         console.log('Costo de envío:', this.shippingCost, 'MXN');
-        console.log('Total con envío:', this.total, 'MXN');
+        
         
       } else {
         console.error('Error al calcular la distancia:', response.rows[0].elements[0].status);
