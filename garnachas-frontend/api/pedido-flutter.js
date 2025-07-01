@@ -42,7 +42,7 @@ export default async function handler(req, res) {
                 subject: "Confirmación de Pedido",
                 htmlContent: `
                 <h1>¡Gracias por tu pedido, ${pedido.nombre}!</h1>
-                <p> Dirección: ${pedido.direccion.calle}, ${pedido.direccion.cp}, ${pedido.direccion.colonia}, ${pedido.direccion.ciudad},
+                <p> Dirección: ${pedido.direccion.calle}, ${pedido.direccion.cp}, ${pedido.direccion.ciudad},
                 <p>Productos:</p>
                 <ul>
                     ${pedido.productos.map(p => `<li>${p.nombre} - Cantidad: ${p.cantidad} - Precio: $${p.precio}</li>`).join('')}
