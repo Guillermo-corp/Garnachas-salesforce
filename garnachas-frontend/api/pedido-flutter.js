@@ -1,7 +1,7 @@
 import { Client } from "pg";
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
+  if (req.method === "POST") {
     const pedido = req.body;
 
     const client = new Client({
@@ -79,16 +79,16 @@ export default async function handler(req, res) {
       );
       await client.end();
 
-      const pedidos = result.rows.map((rows) => ({
-        ...rows,
+      const pedidos = result.rows.map((row) => ({
+        ...row,
         direccion:
           typeof rows.direccion === "string"
-            ? JSON.parse(rows.direccion)
+            ? JSON.parse(row.direccion)
             : rows.direccion,
         productos:
           typeof rows.productos === "string"
-            ? JSON.parse(rows.productos)
-            : rows.productos
+            ? JSON.parse(row.productos)
+            : row.productos
       }));
 
       res.status(200).json(pedidos);
