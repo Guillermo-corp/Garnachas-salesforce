@@ -74,7 +74,7 @@ export default async function handler(req, res) {
       await client.connect();
 
       const result = await client.query(
-        "SELECT id, nombre, email, direccion, productos, total, fecha, datos adicionales FROM pedidos WHERE email = $1 ORDER BY fecha DESC",
+        "SELECT id, nombre, email, direccion, productos, total, fecha, datos_adicionales FROM pedidos WHERE email = $1 ORDER BY fecha DESC",
         [email]
       );
       await client.end();
