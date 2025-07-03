@@ -82,11 +82,11 @@ export default async function handler(req, res) {
       const pedidos = result.rows.map((row) => ({
         ...row,
         direccion:
-          typeof rows.direccion === "string"
+          typeof row.direccion === "string"
             ? JSON.parse(row.direccion)
-            : rows.direccion,
+            : row.direccion,
         productos:
-          typeof rows.productos === "string"
+          typeof row.productos === "string"
             ? JSON.parse(row.productos)
             : row.productos
       }));
