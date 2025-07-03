@@ -58,6 +58,45 @@ export default async function handler(req, res) {
         console.error('Error al procesar el pedido:', error);
         res.status(500).json({ error: 'Error al procesar el pedido' });
     }
+
+    if (req.method === 'GET') {
+        const { email } = req.query;
+        if (!email) return res.status(400).json({ error: 'Email es requerido' });
+
+        const client = new Client({
+            user: process.env.DB_USER,
+            host: process.env.DB_HOST,
+            database: process.env.DB_NAME,
+            password: process.env.DB_PASSWORD,
+            port: process.env.DB_PORT,
+        });
+
+        try {
+            await client.connect();
+
+            const result = await client.query(
+                'SELECT id, nombre, email, direccion, productos, total, fecha, datos adicionales FROM pedidos WHERE email = $1 ORDER BY fecha DESC',
+                [email]
+
+            );
+            await client.end();
+
+            const pedidos = result.rows.map(rows => ({
+                ...rows,
+                direccion: typeof rows.direccion === 'string' ? JSON.parse(rows.direccion) : rows.direccion,
+                productos: typeof rows.productos === 'string' ? JSON.parse(rows.productos) : rows.productos,
+            }));
+
+            res.status(200).json(pedidos);
+        } catch (error) {
+            console.error('Error al obtener los pedidos:', error);
+            res.status(500).json({ error: 'Error al obtener los pedidos' 
+            });
+            return;   
+        }
+
+        res.status(405).json({ error: 'Método no permitido' });
+    }
 }
 
 
