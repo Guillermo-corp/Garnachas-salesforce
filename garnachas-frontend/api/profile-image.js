@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         try {
             await client.connect();
             const result = await client.query(
-                'SELECT photo_url FROM user_profile_pics WHEERE uid = $1',
+                'SELECT photo_url FROM user_profile_pics WHERE uid = $1',
                 [uid]
             );
             await client.end();
