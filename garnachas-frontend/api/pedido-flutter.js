@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
       await client.end();
 
-      //Enviar el correo a Brevo
+      
       await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
         headers: {
