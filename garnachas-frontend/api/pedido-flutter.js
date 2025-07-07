@@ -92,6 +92,7 @@ export default async function handler(req, res) {
       }));
 
       res.status(200).json(pedidos);
+      return;
     } catch (error) {
       console.error("Error al obtener los pedidos:", error);
       return res.status(500).json({ error: "Error al obtener los pedidos" });

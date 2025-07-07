@@ -1,7 +1,7 @@
 import { Client } from "pg";
 
 export default async function handler(req, res) {
-    if (req.method === 'POST') {
+    if (req.method === 'GET') {
         const { uid } = req.query;
         
         if (!uid) return res.status(400).json({ error: 'El uid es requerido' });
