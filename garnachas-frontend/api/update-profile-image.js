@@ -1,36 +1,45 @@
-import { Client } from "pg";
+import { Storage } from '@google-cloud/storage';
+import formidable from 'formidable';
+import fs from 'fs';
+
+export const config = {
+  api: { bodyParser: false }
+};
+
+const credentials = JSON.parse(process.env.GCLOUD_KEY);
+const storage = new Storage({ credentials });
+const bucket = storage.bucket(process.env.GCLOUD_BUCKET);
+
 export default async function handler(req, res) {
-    if (req.method === 'POST') {
-        const { uid, email, photoUrl } = req.body;
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Método no permitido' });
+  }
 
-        if (!uid || !photoUrl) {
-            return res.status(400).json({ error: 'El uid y la URL de la foto son requeridos' });
-        }
+  const form = new formidable.IncomingForm();
 
-        const client = new Client({
-            user: process.env.DB_USER,
-            host: process.env.DB_HOST,
-            database: process.env.DB_NAME,
-            password: process.env.DB_PASSWORD,
-            port: process.env.DB_PORT
-        });
+  form.parse(req, async (err, fields, files) => {
+    if (err) return res.status(500).json({ error: 'Error al procesar archivo' });
 
-        try {
-            await client.connect();
+    const file = files.file;
+    const uid = fields.uid;
 
-            // Aqui inserta o actualiza la imagen de perfil en la base de datos
-            await client.query(
-                'INSERT INTO user_profile_pics (uid, email, photo_url) VALUES ($1, $2, $3) ON CONFLICT (uid) DO UPDATE SET photo_url = EXCLUDED.photo_url, email = EXCLUDED.email',
-                [uid, email, photoUrl]
-            );
-            await client.end();
-
-            res.status(200).json({ ok: true });
-        } catch (error) {
-            console.error('Error al actualizar la imagen de perfil:', error);
-            res.status(500).json({ error: 'Error al actualizar la imagen de perfil' });
-        }
-    } else {
-        res.status(405).json({ error: 'Método no permitido' });
+    if (!file || !uid) {
+      return res.status(400).json({ error: 'Falta archivo o UID' });
     }
+
+    const blob = bucket.file(`profile_pics/${uid}.jpg`);
+    const blobStream = blob.createWriteStream();
+
+    blobStream.on('error', () => {
+      return res.status(500).json({ error: 'Error al subir a Cloud Storage' });
+    });
+
+    blobStream.on('finish', async () => {
+      await blob.makePublic(); 
+      const publicUrl = `https://storage.googleapis.com/${bucket.name}/profile_pics/${uid}.jpg`;
+      res.status(200).json({ url: publicUrl });
+    });
+
+    fs.createReadStream(file.filepath).pipe(blobStream);
+  });
 }
