@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     }
 
     const fileObj = Array.isArray(file) ? file[0] : file;
-    const filePath = file.fileObj.filepath|| fileObj.path;
+    const filePath = fileObj.filepath|| fileObj.path;
     if (!filePath) {
       return res
         .status(400)
