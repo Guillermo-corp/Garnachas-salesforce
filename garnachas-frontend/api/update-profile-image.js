@@ -21,11 +21,8 @@ export default async function handler(req, res) {
     });
 
     await pool.query(
-      `INSERT INTO usuarios (uid, email, photo_url)
-       VALUES ($1, $2, $3)
-       ON CONFLICT (uid)
-       DO UPDATE SET photo_url = EXCLUDED.photo_url, email = EXCLUDED.email`,
-      [uid, email, photoUrl]
+      'UPDATE user_profile_pics SET photo_url = $1 WHERE uid = $2',
+      [photoUrl, uid]
     );
 
     return res.status(200).json({ message: 'Imagen actualizada' });
