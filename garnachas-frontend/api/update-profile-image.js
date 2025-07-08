@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   const { uid, photo_url } = req.body;
 
-  if (!uid || !photoUrl || !email) {
+  if (!uid || !photoUrl) {
     return res.status(400).json({ error: 'Faltan campos requeridos' });
   }
 

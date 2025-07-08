@@ -2,10 +2,6 @@ import { Storage } from "@google-cloud/storage";
 import formidable from "formidable";
 import fs from "fs";
 
-export const config = {
-  api: { bodyParser: false }
-};
-
 const credentials = JSON.parse(process.env.GCLOUD_KEY);
 const storage = new Storage({ credentials });
 const bucket = storage.bucket(process.env.GCLOUD_BUCKET);
@@ -28,7 +24,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Falta archivo o UID" });
     }
 
-    const filePath = file.filepath || file.path;
+    const fileObj = Array.isArray(file) ? file[0] : file;
+    const filePath = file.fileObj.filepath|| fileObj.path;
     if (!filePath) {
       return res
         .status(400)
