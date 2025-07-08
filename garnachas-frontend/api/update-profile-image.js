@@ -1,5 +1,5 @@
 import { Storage } from '@google-cloud/storage';
-import formidable, { IncomingForm } from 'formidable';
+import formidable  from 'formidable';
 import { Pool } from 'pg';
 import fs from 'fs';
 

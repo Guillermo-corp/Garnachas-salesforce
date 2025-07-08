@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
-  const form = new formidable.IncomingForm();
+  const form = formidable({ multiples: false });
 
   form.parse(req, async (err, fields, files) => {
     if (err) return res.status(500).json({ error: 'Error al procesar archivo' });
