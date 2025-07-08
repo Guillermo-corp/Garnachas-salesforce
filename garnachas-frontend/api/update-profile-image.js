@@ -1,5 +1,5 @@
 import { Storage } from '@google-cloud/storage';
-import formidable from 'formidable';
+import { IncomingForm } from 'formidable';
 import { Pool } from 'pg';
 import fs from 'fs';
 
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
-  const form = new formidable.IncomingForm();
+  const form = new IncomingForm();
   form.parse(req, async (err, fields, files) => {
     if (err) return res.status(500).json({ error: 'Error al procesar archivo' });
 
