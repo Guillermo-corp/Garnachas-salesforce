@@ -19,6 +19,7 @@ export default async function handler(req, res) {
 
     const file = files.file;
     const uid = fields.uid;
+    const email = fields.email;
 
     if (!file || !uid) {
       return res.status(400).json({ error: "Falta archivo o UID" });
@@ -42,6 +43,19 @@ export default async function handler(req, res) {
     blobStream.on("finish", async () => {
       await blob.makePublic();
       const publicUrl = `https://storage.googleapis.com/${bucket.name}/profile_pics/${uid}.jpg`;
+      
+      await fetch("https://garnachas-mx.vercel.app/api/update-profile-image", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid,
+          email,
+          photo_url: publicUrl,
+        }),
+      })
+      
       res.status(200).json({ url: publicUrl });
     });
 
