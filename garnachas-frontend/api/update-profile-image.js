@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
-  const { uid, email, photoUrl } = req.body;
+  const { uid, photo_url } = req.body;
 
   if (!uid || !photoUrl || !email) {
     return res.status(400).json({ error: 'Faltan campos requeridos' });
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
     await pool.query(
       'UPDATE user_profile_pics SET photo_url = $1 WHERE uid = $2',
-      [photoUrl, uid]
+      [photo_url, uid]
     );
 
     return res.status(200).json({ message: 'Imagen actualizada' });
