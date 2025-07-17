@@ -441,36 +441,54 @@ export class DetallesComponent implements AfterViewInit {
       });
   }
 
-  sendOrderToBackend(
-    cliente: any,
-    direccion: any,
-    compra: any,
-    platillos: any[]
-  ): void {
-    const backendUrl = 'https://garnachas-mx.vercel.app/api/pedido-angular';
+  sendOrderToBackend(): void {
+  const cliente = {
+    Name: this.personalInfoForm.value.firstName,
+    Apellido__c: this.personalInfoForm.value.lastName,
+    Email__c: this.personalInfoForm.value.email,
+  };
 
-    const direccionCompleta = `${direccion.Calle__c}, ${direccion.Ciudad__c}, CP: ${direccion.CP__c}`;
+  const direccion = {
+    Calle__c: this.addressForm.value.street,
+    Ciudad__c: this.addressForm.value.city,
+    CP__c: this.addressForm.value.zipCode,
+  };
 
-    const productosStr = platillos
-      .map((p) => `${p.Name} x${p.Cantidad__c}`)
-      .join(', ');
+  const direccionStr = `${direccion.Calle__c}, ${direccion.Ciudad__c}, CP: ${direccion.CP__c}`;
 
-    const payload = {
-      nombre: cliente.Name + ' ' + cliente.Apellido__c,
-      email: cliente.Email__c,
-      direccion: direccionCompleta,
-      productos: productosStr,
-      total: compra.Total__c,
-      fecha: new Date().toISOString()
-    };
+  const platillos = this.cartItems.map((item) => ({
+    Name: item.name,
+    Cantidad__c: item.quantity,
+  }));
 
-    this.http.post(backendUrl, payload).subscribe({
-      next: (response) => {
-        console.log('Pedido guardado en backend:', response);
-      },
-      error: (error) => {
-        console.error('Error al guardar pedido en backend:', error);
-      }
-    });
-  }
+  const productosStr = platillos
+    .map((p) => `${p.Name} x${p.Cantidad__c}`)
+    .join(', ');
+
+  const payload = {
+    nombre: `${cliente.Name} ${cliente.Apellido__c}`,
+    email: cliente.Email__c,
+    direccion: direccionStr,
+    productos: productosStr,
+    total: this.total,
+    fecha: new Date().toISOString(),
+  };
+
+  const backendUrl = 'https://garnachas-mx.vercel.app/api/pedido-angular';
+
+  this.http.post(backendUrl, payload).subscribe({
+    next: () => {
+      window.alert('¡Pedido enviado exitosamente al backend!');
+      this.cartService.clearCart();
+      this.cartItems = [];
+      this.total = 0;
+      this.shippingCost = 0;
+    },
+    error: (err) => {
+      console.error('Error al enviar pedido:', err);
+      window.alert('Error al enviar el pedido al backend.');
+    }
+  });
+}
+
 }

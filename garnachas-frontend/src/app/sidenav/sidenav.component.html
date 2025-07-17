@@ -1,17 +1,29 @@
-
-
 <div class="sidenav-container">
-  <button class="toggle-button" [class.shifted]="isOpen" (click)="toggleSidenav()">☰</button>
+  <button
+    class="toggle-button"
+    [class.shifted]="isOpen"
+    (click)="toggleSidenav()"
+  >
+    ☰
+  </button>
   <nav class="sidenav" [class.open]="isOpen">
     <span class="brand-logo">
-      <img src="https://storage.googleapis.com/garnachas-bucket-2/Logo%20Garnachas%20MX.png" alt="logo" aria-hidden="true">
+      <img
+        src="https://storage.googleapis.com/garnachas-bucket-2/Logo%20Garnachas%20MX.png"
+        alt="logo"
+        aria-hidden="true"
+      />
     </span>
     <ul>
       <li><a routerLink="/" (click)="toggleSidenav()">Inicio</a></li>
-      <li><a routerLink="/detalles" (click)="toggleSidenav()">Detalles</a></li> 
-      <li><a routerLink="/aboutus" (click)="toggleSidenav()">Acerca de nosotros</a></li>
+      <li><a routerLink="/detalles" (click)="toggleSidenav()">Detalles</a></li>
+      <li>
+        <a routerLink="/aboutus" (click)="toggleSidenav()"
+          >Acerca de nosotros</a
+        >
+      </li>
       <li><a routerLink="/contacto" (click)="toggleSidenav()">Contacto</a></li>
     </ul>
-    <span class="app-version-info">2025.05.19</span>
+    <span class="app-version-info">2025.07.17</span>
   </nav>
 </div>

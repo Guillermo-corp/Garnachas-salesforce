@@ -1,32 +1,54 @@
 <main>
   <header class="header-detalles">
-        <!-- <img  src="https://videos.openai.com/vg-assets/assets%2Ftask_01jsmd346xf2d8rdzjdtxywtza%2Fimg_0.webp?st=2025-04-24T17%3A24%3A08Z&se=2025-04-30T18%3A24%3A08Z&sks=b&skt=2025-04-24T17%3A24%3A08Z&ske=2025-04-30T18%3A24%3A08Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=A8YpizIqKjiZ%2BgF2Yz3ENj7B1m0yOGf0FvcKQmXonQ0%3D&az=oaivgprodscus" alt="Logo" class="logo-detalles"> -->
+    <!-- <img  src="https://videos.openai.com/vg-assets/assets%2Ftask_01jsmd346xf2d8rdzjdtxywtza%2Fimg_0.webp?st=2025-04-24T17%3A24%3A08Z&se=2025-04-30T18%3A24%3A08Z&sks=b&skt=2025-04-24T17%3A24%3A08Z&ske=2025-04-30T18%3A24%3A08Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=A8YpizIqKjiZ%2BgF2Yz3ENj7B1m0yOGf0FvcKQmXonQ0%3D&az=oaivgprodscus" alt="Logo" class="logo-detalles"> -->
   </header>
   <body class="body-detalles">
-    <mat-horizontal-stepper [linear]="true" #stepper [animationDuration]="duration">
-        <!-- Paso 1: Información Personal -->
+    <mat-horizontal-stepper
+      [linear]="true"
+      #stepper
+      [animationDuration]="duration"
+    >
+      <!-- Paso 1: Información Personal -->
       <mat-step [stepControl]="personalInfoForm">
         <form [formGroup]="personalInfoForm">
           <ng-template matStepLabel>Información Personal</ng-template>
           <mat-form-field appearance="fill">
             <mat-label>Nombre</mat-label>
-            <input matInput formControlName="firstName" placeholder="Ingresa tu nombre">
+            <input
+              matInput
+              formControlName="firstName"
+              placeholder="Ingresa tu nombre"
+            />
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Apellido</mat-label>
-            <input matInput formControlName="lastName" placeholder="Ingresa tu apellido">
+            <input
+              matInput
+              formControlName="lastName"
+              placeholder="Ingresa tu apellido"
+            />
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Correo Electrónico</mat-label>
-            <input matInput formControlName="email" placeholder="Ingresa tu correo">
+            <input
+              matInput
+              formControlName="email"
+              placeholder="Ingresa tu correo"
+            />
           </mat-form-field>
           <div>
-            <button mat-button matStepperNext [disabled]="!personalInfoForm.valid">Siguiente</button>
+            <button
+              mat-button
+              matStepperNext
+              [disabled]="!personalInfoForm.valid"
+            >
+              Siguiente
+            </button>
           </div>
         </form>
       </mat-step>
-      
-        <!-- Paso 2: Dirección -->
+
+      <!-- Paso 2: Dirección -->
       <mat-step [stepControl]="addressForm">
         <form [formGroup]="addressForm">
           <ng-template matStepLabel>Dirección</ng-template>
@@ -35,29 +57,52 @@
             <input matInput id="autocomplete" type="text" placeholder="Ingresa tu dirección">
           </mat-form-field> -->
           <div id="map-container">
-            <input id="map-search-box" type="text" placeholder="Buscar en el mapa"/>
+            <input
+              id="map-search-box"
+              type="text"
+              placeholder="Buscar en el mapa"
+            />
             <div id="map"></div>
           </div>
           <mat-form-field appearance="fill">
             <mat-label>Calle y número</mat-label>
-            <input matInput formControlName="street" placeholder="Ingresa tu calle">
+            <input
+              matInput
+              formControlName="street"
+              placeholder="Ingresa tu calle"
+            />
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Ciudad</mat-label>
-            <input matInput formControlName="city" placeholder="Ingresa tu ciudad">
+            <input
+              matInput
+              formControlName="city"
+              placeholder="Ingresa tu ciudad"
+            />
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Código Postal</mat-label>
-            <input matInput formControlName="zipCode" placeholder="Ingresa tu código postal">
+            <input
+              matInput
+              formControlName="zipCode"
+              placeholder="Ingresa tu código postal"
+            />
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Anterior</button>
-            <button mat-button matStepperNext [disabled]="!addressForm.valid"(click)="calculateShippingCost()">Siguiente</button>
+            <button
+              mat-button
+              matStepperNext
+              [disabled]="!addressForm.valid"
+              (click)="calculateShippingCost()"
+            >
+              Siguiente
+            </button>
           </div>
         </form>
       </mat-step>
-      
-        <!-- Paso 3: Resumen del Pedido -->
+
+      <!-- Paso 3: Resumen del Pedido -->
       <mat-step>
         <ng-template matStepLabel>Resumen del Pedido</ng-template>
         <div class="order-summary">
@@ -83,7 +128,14 @@
         </div>
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
-          <button mat-button color="primary" (click)="placeOrder()" [disabled]="cartItems.length === 0">Finalizar Pedido</button>
+          <button
+            mat-button
+            color="primary"
+            (click)="sendOrderToBackend()"
+            [disabled]="cartItems.length === 0"
+          >
+            Finalizar Pedido
+          </button>
           <!-- <button mat-button color="accent" (click)="payWithStripe()" [disabled]="cartItems.length === 0">Pagar con tarjeta</button> -->
         </div>
       </mat-step>
