@@ -461,15 +461,12 @@ export class DetallesComponent implements AfterViewInit {
     Cantidad__c: item.quantity,
   }));
 
-  const productosStr = platillos
-    .map((p) => `${p.Name} x${p.Cantidad__c}`)
-    .join(', ');
 
   const payload = {
     nombre: `${cliente.Name} ${cliente.Apellido__c}`,
     email: cliente.Email__c,
     direccion: direccionStr,
-    productos: productosStr,
+    productos: platillos,
     total: this.total,
     fecha: new Date().toISOString(),
   };

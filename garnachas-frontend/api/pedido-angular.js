@@ -15,7 +15,6 @@ export default async function handler(req, res) {
     try {
       await client.connect();
 
-      // Insertar en PostgreSQL
       await client.query(
         "INSERT INTO pedidos (nombre, email, direccion, productos, total, fecha) VALUES ($1, $2, $3, $4, $5, $6)",
         [
@@ -30,7 +29,15 @@ export default async function handler(req, res) {
 
       await client.end();
 
-      // Enviar correo con Brevo
+      const productos =
+        typeof pedido.productos === "string"
+          ? JSON.parse(pedido.productos)
+          : pedido.productos;
+
+      const productosHtml = productos
+        .map((p) => `${p.Name} x${p.Cantidad__c}`)
+        .join(", ");
+
       const brevoResponse = await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
         headers: {
@@ -42,12 +49,12 @@ export default async function handler(req, res) {
           to: [{ email: pedido.email, name: pedido.nombre }],
           subject: "Confirmación de Pedido",
           htmlContent: `
-            <h1>¡Gracias por tu pedido, ${pedido.nombre}!</h1>
-            <p><strong>Dirección:</strong> ${pedido.direccion}</p>
-            <p><strong>Productos:</strong> ${pedido.productos.map((p) => p.nombre).join(", ")}</p>
-            <p><strong>Total:</strong> $${pedido.total}</p>
-            <p>¡Buen provecho!</p>
-          `
+      <h1>¡Gracias por tu pedido, ${pedido.nombre}!</h1>
+      <p><strong>Dirección:</strong> ${pedido.direccion}</p>
+      <p><strong>Productos:</strong> ${productosHtml}</p>
+      <p><strong>Total:</strong> $${pedido.total}</p>
+      <p>¡Buen provecho!</p>
+    `
         })
       });
 
