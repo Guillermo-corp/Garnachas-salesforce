@@ -1,7 +1,6 @@
 import { Component, ViewChild, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, PageEvent, MatPaginatorModule, } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -9,15 +8,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormControl} from '@angular/forms';
 import { CartService } from '../services/cart.service'; 
 import { track } from '@vercel/analytics';
 import { CustomPaginatorIntl } from '../services/custom-paginator-intl.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 
 
 @Component({
@@ -25,7 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  encapsulation: ViewEncapsulation.None, // Desactiva la encapsulación de estilos
+  encapsulation: ViewEncapsulation.None, 
   imports: [
     CommonModule,
     MatPaginatorModule,
@@ -38,12 +35,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatAutocompleteModule, // Add this
-    MatOptionModule,       // Add this
+    MatAutocompleteModule, 
+    MatOptionModule,       
   ],
   providers: [
-    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }, // Registra el servicio personalizado
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }, // Set appearance to outline
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }, 
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }, 
   ],
   changeDetection: ChangeDetectionStrategy.OnPush, 
 })
@@ -214,34 +211,8 @@ export class HomeComponent {
     const endIndex = startIndex + this.pageSize;
     this.paginatedList = this.filteredLocationList.slice(startIndex, endIndex);
   }
-/* 
-  garnacha = {
-    name: 'Garnacha',
-    description: 'Descripción de la garnacha.',
-    price: 12.0,
-  };
 
-  quesadilla = {
-    name: 'Quesadilla',
-    description: 'Descripción de la Quesadilla.',
-    price: 14.0,
-  };
-  tempispis = {
-    name: 'Tempispis',
-    description: 'Descripción de la tempispis.',
-    price: 15.0,
-  };
-  gorditas = {
-    name: 'Gorditas',
-    description: 'Descripción de la gorditas.',
-    price: 14.0,
-  }
-  picadas = {
-    name: 'Picadas',
-    description: 'Descripción de la picadas.',
-    price: 12.0,
-  } */
-  constructor(private cartService: CartService) {} // Inyectar el servicio
+  constructor(private readonly cartService: CartService) {} // Inyectar el servicio
 
   addToCart(item: any): void {
     if (item.selectedRelleno) {
