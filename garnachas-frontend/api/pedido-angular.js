@@ -21,8 +21,8 @@ export default async function handler(req, res) {
         [
           pedido.nombre,
           pedido.email,
-          pedido.direccion,
-          pedido.productos,
+          JSON.stringify({ direccion: pedido.direccion }),
+          JSON.stringify({ productos: pedido.productos }),
           pedido.total,
           pedido.fecha
         ]
