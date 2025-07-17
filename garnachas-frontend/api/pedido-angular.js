@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       await client.end();
 
       // Enviar correo con Brevo
-      await fetch("https://api.brevo.com/v3/smtp/email", {
+      const brevoResponse = await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
         headers: {
           "api-key": process.env.BREVO_API_KEY,
@@ -44,17 +44,27 @@ export default async function handler(req, res) {
           htmlContent: `
             <h1>¡Gracias por tu pedido, ${pedido.nombre}!</h1>
             <p><strong>Dirección:</strong> ${pedido.direccion}</p>
-            <p><strong>Productos:</strong> ${pedido.productos}</p>
+            <p><strong>Productos:</strong> ${pedido.productos.map((p) => p.nombre).join(", ")}</p>
             <p><strong>Total:</strong> $${pedido.total}</p>
             <p>¡Buen provecho!</p>
           `
         })
       });
 
+      const brevoData = await brevoResponse.json();
+      console.log("Brevo status:", brevoResponse.status);
+      console.log("Brevo response:", brevoData);
+
+      if (!brevoResponse.ok) {
+        throw new Error(`Error al enviar correo: ${JSON.stringify(brevoData)}`);
+      }
+
       res.status(200).json({ ok: true });
     } catch (error) {
       console.error("Error al procesar el pedido:", error);
-      res.status(500).json({ error: "Error al procesar el pedido" });
+      res
+        .status(500)
+        .json({ error: error.message || "Error al procesar el pedido" });
     }
   } else {
     res.status(405).json({ error: "Método no permitido" });
