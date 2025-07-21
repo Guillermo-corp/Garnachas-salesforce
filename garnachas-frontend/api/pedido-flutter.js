@@ -28,7 +28,6 @@ export default async function handler(req, res) {
 
       await client.end();
 
-      
       await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
         headers: {
@@ -97,7 +96,6 @@ export default async function handler(req, res) {
       console.error("Error al obtener los pedidos:", error);
       return res.status(500).json({ error: "Error al obtener los pedidos" });
     }
-
-    return res.status(405).json({ error: "Método no permitido" });
   }
+  return res.status(405).json({ error: "Método no permitido" });
 }
