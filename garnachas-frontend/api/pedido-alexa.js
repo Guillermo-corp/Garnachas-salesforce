@@ -1,10 +1,23 @@
 import { Client } from "pg";
 
+function normalizarEmail(texto) {
+  return texto
+    .replace(/\s?arroba\s?/gi, "@")
+    .replace(/\s?punto\s?/gi, ".")
+    .replace(/\s?guion\s?bajo\s?/gi, "_")
+    .replace(/\s?guion\s?/gi, "-")
+    .replace(/\s+/g, "")
+    .toLowerCase();
+}
+
 export default async function handler(req, res) {
   if (req.method === "GET") {
     const { email, nombre } = req.query;
     if (!email && !nombre) {
-      return res.status(400).json({ error: "Email o nombre es requerido" });
+      return res.status(400).json({ error: "Email o nombre son requeridos" });
+    }
+    if (email) {
+      email = normalizarEmail(email);
     }
 
     const client = new Client({
