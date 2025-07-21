@@ -12,7 +12,7 @@ function normalizarEmail(texto) {
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-    const { email, nombre } = req.query;
+    let { email, nombre } = req.query;
     if (!email && !nombre) {
       return res.status(400).json({ error: "Email o nombre son requeridos" });
     }
