@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule,
-    RouterModule
-  ],
+  imports: [FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -15,9 +12,29 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
+  // ...existing code...
   onLogin() {
+    fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: this.email, password: this.password })
+    })
+      .then(async (res) => {
+        if (res.ok) {
+          localStorage.setItem('userToken', 'authenticated');
+          alert('Inicio de sesión exitoso');
+          this.router.navigate(['/']);
+        } else {
+          const data = await res.json();
+          alert(data.error || 'Correo o contraseña incorrectos');
+        }
+      })
+      .catch(() => alert('Error de conexión con el servidor'));
+  }
+  // ...existing code...
+  /* onLogin() {
     // Obtiene los usuarios registrados desde localStorage
     const users = JSON.parse(localStorage.getItem('users') || '[]');
   
@@ -31,7 +48,7 @@ export class LoginComponent {
     } else {
       alert('Correo o contraseña incorrectos');
     }
-  }
+  } */
 
   // Simulación de inicio de sesión sin backend
   /* onLogin() {

@@ -6,16 +6,43 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-register',
   imports: [FormsModule],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   onRegister() {
+    if (!this.email || !this.password || !this.confirmPassword) {
+      alert('Por favor, completa todos los campos.');
+      return;
+    }
+    if (this.password !== this.confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+
+    fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: this.email, password: this.password })
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok) {
+          alert('Registro exitoso. Ahora puedes iniciar sesión.');
+          this.router.navigate(['/login']);
+        } else {
+          alert(data.error || 'Error al registrar usuario');
+        }
+      })
+      .catch(() => alert('Error de conexión con el servidor'));
+  }
+}
+  /* onRegister() {
     // Verifica si el correo ya está registrado
     if (!this.email || !this.password || !this.confirmPassword) {
       alert('Por favor, completa todos los campos.');
@@ -42,5 +69,5 @@ export class RegisterComponent {
  
      alert('Registro exitoso. Ahora puedes iniciar sesión.');
      this.router.navigate(['/login']); // Redirige al login
-   }
-}
+   } */
+
