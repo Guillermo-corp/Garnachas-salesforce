@@ -1,191 +1,191 @@
 :host {
-    display: block;
+  display: block;
+}
+
+:host .search-and-results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Reduce spacing between form and results */
+}
+
+:host .search-form {
+  display: flex;
+  gap: 10px; /* Adjust spacing between input and button */
+  align-items: center;
+}
+
+:host .results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin-top: 0; /* Remove extra margin */
+}
+
+@media (max-width: 768px) {
+  :host .search-form input[type="text"] {
+    width: 100%; /* Full width on smaller screens */
   }
-  
-  :host .search-and-results {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Reduce spacing between form and results */
-  }
-  
-  :host .search-form {
-    display: flex;
-    gap: 10px; /* Adjust spacing between input and button */
-    align-items: center;
-  }
-  
+}
+
+@media (min-width: 500px) and (max-width: 768px) {
   :host .results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 14px;
-    margin-top: 0; /* Remove extra margin */
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  @media (max-width: 768px) {
-    :host .search-form input[type="text"] {
-      width: 100%; /* Full width on smaller screens */
-    }
+  :host input[type="text"] {
+    width: 70%;
   }
-  
-  @media (min-width: 500px) and (max-width: 768px) {
-    :host .results {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    :host input[type="text"] {
-      width: 70%;
-    }
-  }
-  
-  @media (max-width: 499px) {
-    :host .results {
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  input[type="text"] {
-    border: solid 1px var(--primary-color);
-    padding: 4px 8px;
-    border-radius: 8px;
-    font-size: 15px;
-    box-sizing: border-box;
-  }
-  
-  .example-card-actions button {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 2px 2px;
-    font-size: 15px;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-    width: 100%; /* Hace que el botón ocupe todo el ancho disponible */
-    max-width: 200px; /* Opcional: establece un ancho máximo */
-  }
-  
-  .example-card-actions button:hover {
-    background-color: var(--secondary-color);
-  }
-  
-  .home-container {
-    display: flex;
-    flex-direction: column; /* Ensure vertical stacking of elements */
-    padding: 20px;
-    gap: 10px; /* Add spacing between child elements */
-  }
-  
-  .menu-title-container h1 {
-    font-size: 2.5rem; /* Aumenta el tamaño de la fuente */
-    color: var(--primary-color); /* Usa un color destacado */
-    font-weight: bold; /* Haz que el texto sea más grueso */
-    text-transform: uppercase; /* Convierte el texto a mayúsculas */
-    text-align: center;
-    margin: 0; /* Elimina márgenes adicionales */
-  }
-  .menu-title-container h1:hover {
-    color: var(--secondary-color); /* Cambia el color al pasar el mouse */ 
-  }
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px; /* Further increase spacing between product cards */
-    margin-top: 30px; /* Add more spacing above the grid */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;
-  }
+}
 
-  .product-grid mat-chip-set {
-    justify-content: center;
+@media (max-width: 499px) {
+  :host .results {
+    grid-template-columns: 1fr;
   }
+}
 
-  .product-grid .example {
-    max-width: 600px;
-    height: 500px;
-    width: 100%;
-    margin: 16px;
-    padding: 16px;
-    flex-direction: column; 
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 4px 8px rgb(20, 20, 20);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  .example-card-footer{
-    justify-content: center;
-    display: flex;
-    
-  }
-  .example-card-actions .addProduct{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 16px;
-  }
+input[type="text"] {
+  border: solid 1px var(--primary-color);
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
 
-  .custom-image {
-   /*  width: 100%;
+.example-card-actions button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 2px 2px;
+  font-size: 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  width: 100%; /* Hace que el botón ocupe todo el ancho disponible */
+  max-width: 200px; /* Opcional: establece un ancho máximo */
+}
+
+.example-card-actions button:hover {
+  background-color: var(--secondary-color);
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column; /* Ensure vertical stacking of elements */
+  padding: 20px;
+  gap: 10px; /* Add spacing between child elements */
+}
+
+.menu-title-container h1 {
+  font-size: 2.5rem; /* Aumenta el tamaño de la fuente */
+  color: var(--primary-color); /* Usa un color destacado */
+  font-weight: bold; /* Haz que el texto sea más grueso */
+  text-transform: uppercase; /* Convierte el texto a mayúsculas */
+  text-align: center;
+  margin: 0; /* Elimina márgenes adicionales */
+}
+.menu-title-container h1:hover {
+  color: var(--secondary-color); /* Cambia el color al pasar el mouse */
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px; /* Further increase spacing between product cards */
+  margin-top: 30px; /* Add more spacing above the grid */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;
+}
+
+.product-grid mat-chip-set {
+  justify-content: center;
+}
+
+.product-grid .example {
+  max-width: 600px;
+  height: 500px;
+  width: 100%;
+  margin: 16px;
+  padding: 16px;
+  flex-direction: column;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 8px rgb(20, 20, 20);
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+}
+.example-card-footer {
+  justify-content: center;
+  display: flex;
+}
+.example-card-actions .addProduct {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 16px;
+}
+
+.custom-image {
+  /*  width: 100%;
     height: auto;
     max-height: 200px;
     object-fit: cover;  */
-    width: 300px;
-    height: 150px;
-    background-position: center; 
-    object-fit: cover;
-    border-radius: 8px;
-  }
+  width: 300px;
+  height: 150px;
+  background-position: center;
+  object-fit: cover;
+  border-radius: 8px;
+}
 
-  .custom-image.not-best-seller {
-    margin-top: 30px;
-  }
+.custom-image.not-best-seller {
+  margin-top: 30px;
+}
 
-  .example-card-actions mat-icon{
-    height: 20px;
-  }
-  .example mat-icon{
-    height: 22px;
-  }
-  .example mat-card-subtitle{
-    font-size: 1rem;
-    color: rgb(255, 32, 88);
-  }
+.example-card-actions mat-icon {
+  height: 20px;
+}
+.example mat-icon {
+  height: 22px;
+}
+.example mat-card-subtitle {
+  font-size: 1rem;
+  color: rgb(255, 32, 88);
+}
 
-  .example mat-card-title {
-    font-family: 'Roboto', sans-serif; /* Aplica la fuente personalizada */
-    font-size: 1.8rem; /* Ajusta el tamaño de la fuente */
-    color: var(--primary-color) /* Cambia el color */
-  }
-  .example mat-card-title:hover {
-    color: var(--secondary-color) /* Cambia el color */
-  }
-  .example-card-actions .removeProduct{
-    font-size: 14px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 16px;
-  }
+.example mat-card-title {
+  font-family: "Roboto", sans-serif; /* Aplica la fuente personalizada */
+  font-size: 1.8rem; /* Ajusta el tamaño de la fuente */
+  color: var(--primary-color); /* Cambia el color */
+}
+.example mat-card-title:hover {
+  color: var(--secondary-color); /* Cambia el color */
+}
+.example-card-actions .removeProduct {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 16px;
+}
 
-  .form-field-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    /* flex-wrap: wrap;
+.form-field-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  /* flex-wrap: wrap;
     width: 100%;
     margin-top: 10px; */
-    
-  }
-  
+}
+
+.relleno-autocomplete,
+.sauce-autocomplete {
+  flex: 1 1 45%;
+  min-width: 50px;
+  max-width: 130px;
+  height: 70px;
+}
+
+@media (max-width: 600px) {
   .relleno-autocomplete,
   .sauce-autocomplete {
     flex: 1 1 45%;
-    min-width: 50px;
-    max-width: 130px;
-    height: 70px;
+    max-width: 50%;
+    height: auto;
   }
-  
-  @media (max-width: 600px) {
-    .relleno-autocomplete,
-    .sauce-autocomplete {
-      flex: 1 1 45%;
-      max-width: 50%;
-      height: auto;
-    }
-  }
+}

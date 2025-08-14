@@ -1,22 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
 
-  
-  body {
-    font-family: 'Be Vietnam Pro', sans-serif;
-  }
-  :root {
-    --primary-color: rgb(20,20,20);;
-    --secondary-color: #ee4d25;
-    --accent-color: #e8e7fa;
-    --shadow-color: #E8E8E8;
-  }
-  
-  html, body { height: 100%; }
-  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* body {
+  font-family: "Be Vietnam Pro", sans-serif;
+} */
+:root {
+  --primary-color: rgb(20, 20, 20);
+  --secondary-color: #ee4d25;
+  --accent-color: #e8e7fa;
+  --shadow-color: #e8e8e8;
+}
 
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(55, 55, 55, 0.8)),
+    no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  color: #264653;
+}
 
+mat-card.example:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
 
+.mat-mdc-paginator {
+  background: transparent !important;
+  background-size: cover !important;
+  color: white !important;
+}
 
+.mat-mdc-paginator .mat-mdc-paginator-range-label,
+.mat-mdc-paginator .mat-mdc-icon-button {
+  color: white !important;
+}
 
-
-
+.mat-mdc-paginator .mat-mdc-icon-button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}

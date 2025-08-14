@@ -9,7 +9,6 @@ main {
 .content {
   flex: 1;
   padding-left: 60px;
- 
 }
 
 header {
@@ -54,7 +53,7 @@ header .brand-logo {
   height: 60px;
 }
 
-header .icon-group{
+header .icon-group {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -90,7 +89,6 @@ input {
   margin: 0;
   padding: 0;
 }
-
 
 mat-menu {
   width: 80px;

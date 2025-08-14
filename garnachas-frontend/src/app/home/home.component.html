@@ -10,13 +10,18 @@
     <h1 class="title">Menú</h1>
   </div>
   <mat-paginator
-  [length]="filteredLocationList.length"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="[4, 8, 12]"
-  (page)="onPageChange($event)">
-</mat-paginator>
+    [length]="filteredLocationList.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[4, 8, 12]"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
   <div class="product-grid">
-    <mat-card *ngFor="let item of paginatedList" class="example" appearance="outlined">
+    <mat-card
+      *ngFor="let item of paginatedList"
+      class="example"
+      appearance="outlined"
+    >
       <mat-card-header>
         <mat-card-title>{{ item.name }}</mat-card-title>
         <mat-card-subtitle *ngIf="item.isBestSeller">
@@ -24,12 +29,22 @@
           Producto más vendido
         </mat-card-subtitle>
       </mat-card-header>
-      <img mat-card-image class="custom-image" [src]="item.image" [alt]="item.name + ' Image'" [ngClass]="{ 'not-best-seller': !item.isBestSeller }">
+      <img
+        mat-card-image
+        class="custom-image"
+        [src]="item.image"
+        [alt]="item.name + ' Image'"
+        [ngClass]="{ 'not-best-seller': !item.isBestSeller }"
+      />
       <mat-card-content>
         <p><mat-icon color="primary">info</mat-icon> {{ item.description }}</p>
-        <p><mat-icon color="warn">attach_money</mat-icon> Precio: ${{ item.price }}</p>
+        <p>
+          <mat-icon color="warn">attach_money</mat-icon> Precio: ${{
+            item.price
+          }}
+        </p>
       </mat-card-content>
-      <br>
+      <br />
       <mat-card-footer class="example-card-footer">
         <div class="form-field-container">
           <mat-form-field class="relleno-autocomplete" appearance="outline">
@@ -38,52 +53,56 @@
               matInput
               placeholder="Relleno"
               [matAutocomplete]="rellenoAuto"
-              [formControl]="item.rellenoControl" 
+              [formControl]="item.rellenoControl"
             />
             <mat-autocomplete
               #rellenoAuto="matAutocomplete"
               (optionSelected)="onRellenoSelected($event, item)"
             >
-              <mat-option *ngFor="let relleno of rellenos[item.name]" [value]="relleno" >
+              <mat-option
+                *ngFor="let relleno of rellenos[item.name]"
+                [value]="relleno"
+              >
                 {{ relleno }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
 
-        <mat-form-field class="sauce-autocomplete" appearance="outline">
-          <input
-            type="text"
-            matInput
-            placeholder="Salsa"
-            [matAutocomplete]="sauceAuto"
-            [formControl]="sauceControl"
-          />
-          <mat-autocomplete
-            #sauceAuto="matAutocomplete"
-            (optionSelected)="onSauceSelected($event)"
-          >
-            <mat-option *ngFor="let sauce of filteredSauces" [value]="sauce">
-              {{ sauce }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+          <mat-form-field class="sauce-autocomplete" appearance="outline">
+            <input
+              type="text"
+              matInput
+              placeholder="Salsa"
+              [matAutocomplete]="sauceAuto"
+              [formControl]="sauceControl"
+            />
+            <mat-autocomplete
+              #sauceAuto="matAutocomplete"
+              (optionSelected)="onSauceSelected($event)"
+            >
+              <mat-option *ngFor="let sauce of filteredSauces" [value]="sauce">
+                {{ sauce }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
       </mat-card-footer>
       <mat-card-actions class="example-card-actions">
-        <div class = "addProduct">
-        <button mat-fab extended (click)="addToCart(item)">
-          <mat-icon>add_shopping_cart</mat-icon> Agregar
-        </button>
-      </div>
-      <div class = "removeProduct">
-        <button mat-fab extended (click)="removeFromCart(item)">
-          <mat-icon>delete</mat-icon> Eliminar
-        </button>
-      </div>
+        <div class="addProduct">
+          <button mat-fab extended (click)="addToCart(item)">
+            <mat-icon>add_shopping_cart</mat-icon> Agregar
+          </button>
+        </div>
+        <div class="removeProduct">
+          <button mat-fab extended (click)="removeFromCart(item)">
+            <mat-icon>delete</mat-icon> Eliminar
+          </button>
+        </div>
       </mat-card-actions>
     </mat-card>
   </div>
-<!--   <mat-paginator
+
+  <!--   <mat-paginator
     [length]="filteredLocationList.length"
     [pageSize]="pageSize"
     [pageSizeOptions]="[4, 8, 12]"
